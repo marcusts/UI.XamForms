@@ -26,7 +26,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define USE_BACK_COLOR
+// #define SHOW_BACK_COLORS
 // #define FORCE_CURRENT_STYLE_COPY
 
 namespace Com.MarcusTS.UI.XamForms.Views.Controls
@@ -289,7 +289,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             {
                imageLabelButton.ResetImageAndLabel( imageLabelButton.ImageHorizontalAlign, imageLabelButton.ImageVerticalAlign );
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
                newVal.BackgroundColor = Color.Cyan;
 #endif
             }
@@ -320,7 +320,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                   newVal.PropertyChanged += imageLabelButton.HandleLabelPropertyChanged;
                }
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
                newVal.BackgroundColor = Color.GreenYellow;
 #endif
             }

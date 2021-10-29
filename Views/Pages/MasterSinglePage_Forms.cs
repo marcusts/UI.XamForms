@@ -26,7 +26,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define SHOW_BACK_COLOR
+// #define SHOW_BACK_COLORS
 // #define DEFEAT_SPINNER
 
 namespace Com.MarcusTS.UI.XamForms.Views.Pages
@@ -89,7 +89,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          Padding = new Thickness( 0, DeviceUtils_PI.IsIos() ? 30.0.AdjustForOsAndDevice() : 0, 0,
             DeviceUtils_PI.IsIos() ? 10.0.AdjustForOsAndDevice() : 0 );
 
-#if SHOW_BACK_COLOR
+#if SHOW_BACK_COLORS
          BackgroundColor = Color.Yellow;
 #else
          BackgroundColor = ThemeUtils_Forms.MAIN_STAGE_THEME_COLOR;
@@ -98,7 +98,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          CreateBackgroundLayout();
          _grossPageGrid = UIUtils_Forms.GetExpandingGrid();
 
-#if SHOW_BACK_COLOR
+#if SHOW_BACK_COLORS
          _grossPageGrid.BackgroundColor = Color.Orange;
 #else
          _grossPageGrid.BackgroundColor = Color.Transparent;
@@ -122,7 +122,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
                }
             };
 
-#if SHOW_BACK_COLOR
+#if SHOW_BACK_COLORS
          _mainStageGrid.BackgroundColor = Color.MediumPurple;
 #else
          _mainStageGrid.BackgroundColor = Color.Transparent;
@@ -133,7 +133,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          _keyboardAreaGrid               = UIUtils_Forms.GetExpandingGrid();
          _keyboardAreaGrid.HeightRequest = 0;
 
-#if SHOW_BACK_COLOR
+#if SHOW_BACK_COLORS
          _keyboardAreaGrid.BackgroundColor = Color.LimeGreen;
 #else
          _keyboardAreaGrid.BackgroundColor = Color.Transparent;
@@ -282,7 +282,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
 
       public override Task<View> GetDefaultContent()
       {
-#if SHOW_BACK_COLOR
+#if SHOW_BACK_COLORS
          var retLayout = UIUtils_Forms.GetExpandingRelativeLayout();
          retLayout.Margin = 15.0.AdjustForOsAndDevice();
          retLayout.CreateRelativeOverlay(_grossPageGrid);

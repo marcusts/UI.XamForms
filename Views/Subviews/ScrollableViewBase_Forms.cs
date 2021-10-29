@@ -26,7 +26,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define USE_BACK_COLOR
+// #define SHOW_BACK_COLORS
 
 namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 {
@@ -219,7 +219,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          _viewToSet = await CreateViewToSet().WithoutChangingContext();
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
          BackgroundColor = Color.Maroon;
          _viewToSet.BackgroundColor = Color.LightSeaGreen;
 #endif

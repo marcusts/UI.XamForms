@@ -26,13 +26,13 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define USE_BACK_COLOR
+// #define SHOW_BACK_COLORS
 
 /*
 DOING  NOTHING FOR ANDROID
-#define LOG_WIDTH_CHANGES
-#define LOG_WIDTH_CHANGES
-#define SET_CANVAS_WIDTH_ON_MAIN_THREAD
+// #define LOG_WIDTH_CHANGES
+// #define LOG_WIDTH_CHANGES
+// #define SET_CANVAS_WIDTH_ON_MAIN_THREAD
 */
 
 namespace Com.MarcusTS.UI.XamForms.Views.Controls
@@ -87,7 +87,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       ShapeView_Forms,
       IFlowableChild_Forms
    {
-      private static readonly int MAX_TICKS = 7;
+      private static readonly int MAX_TICKS = 15;
       private static readonly int FORCE_WIDTH_CHANGE_TIMER_DELAY_MILLISECONDS = 75;
       private readonly        IProvideChildFlowGuidance_Forms _flowParent;
       private readonly        IThreadSafeAccessor _heightPropertyChangedEntered = new ThreadSafeAccessor();
@@ -103,7 +103,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          CornerRadius = 0;
          SetCornerRadiusFactor( 0 ).FireAndFuhgetAboutIt();
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
          FillColor       = Color.Lime;
 #endif
 

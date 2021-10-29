@@ -26,8 +26,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define USE_BACK_COLOR
-// #define TEST_HEADER
+// #define SHOW_BACK_COLORS
 
 namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 {
@@ -436,7 +435,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          // Create the header (from a grid)
          var headerGrid = UIUtils_Forms.GetExpandingGrid();
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
          headerGrid.BackgroundColor = Color.Red;
 #endif
 
@@ -445,18 +444,9 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          // Might need to add vertical gridlines
          foreach ( var keyValuePair in _propInfoDict.OrderBy( pi => pi.Value.DisplayOrder ) )
          {
-#if TEST_HEADER
-            var headerCell = new Label
-                             {
-                                Text = keyValuePair.Value.HeaderName,
-                                BackgroundColor = UIConst_Forms.HEADER_AND_KEY_LINE_COLOR,
-                                HeightRequest = TableAttributeViewManager_Forms.HEADER_ROW_HEIGHT,
-                             };
-#else
             var headerCell =
                await CurrentCustomizations.CreateHeaderViewForAttribute( keyValuePair.Value )
                                           .WithoutChangingContext();
-#endif
 
             AddViewToGridColumn( keyValuePair.Value, headerGrid, headerCell, currentColumn++ );
 

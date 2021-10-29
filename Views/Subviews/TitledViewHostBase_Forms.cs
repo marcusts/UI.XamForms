@@ -28,9 +28,10 @@
 
 #define HACK_LABEL_ALIGNMENT_ISSUES
 
-// #define USE_BACK_COLOR
+// #define SHOW_BACK_COLORS
+
 // DOES NOTHING FOR ANDROID VIEWS
-// #define RECREATE_ON_MAIN_THREAD
+#define RECREATE_ON_MAIN_THREAD
 
 namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 {
@@ -377,7 +378,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                AnimatedBaseLayout.SourceViews.Add( DerivedView );
             }
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
             BackgroundColor = Color.Turquoise;
             Margin = new Thickness(15.0.AdjustForOsAndDevice());
 

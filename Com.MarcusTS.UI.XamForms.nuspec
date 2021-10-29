@@ -2,14 +2,14 @@
 <package >
   <metadata>
     <id>Com.MarcusTS.UI.XamForms</id>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <title>Responsive Tasks</title>
     <authors>Stephen Marcus</authors>
     <owners>Marcus Technical Services, Inc.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
      <license type="file">license.txt</license>
      <description>
-         Xamarin.Forms abstract classes and utilities for creating animated apps using the ResponsiveTasks library.
+        Xamarin.Forms abstract classes and utilities to support creating flowable animated apps.
     </description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2021 Marcus Technical Services, Inc. (https://www.marcusts.com)</copyright>

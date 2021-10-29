@@ -28,8 +28,7 @@
 
 #define USE_FADES
 
-// #define USE_BACK_COLOR
-// #define LOG_MISSING_SORTED_CHILDREN
+// #define SHOW_BACK_COLORS
 
 /*
  DOING NOTHING FOR ANDROID WIDTH ISSUES
@@ -136,7 +135,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          Margin            = 0;
          Padding           = 0;
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
          ItemsCanvas.BackgroundColor = Color.Orchid;
          FillColor                   = Color.Yellow;
          // BackgroundColor             = Color.Yellow;
@@ -673,10 +672,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             {
                maxChildHeight = childHeight;
             }
-
-#if LOG_MISSING_SORTED_CHILDREN
-            Debug.WriteLine(nameof(SetChildPositionStatuses) + ": next x ->" + flowableChild.NextBounds.X.ToRoundedInt() + "<- y ->" + flowableChild.NextBounds.Y.ToRoundedInt() + "<- width ->" + flowableChild.NextBounds.Width.ToRoundedInt() + "<- height ->" + flowableChild.NextBounds.Height.ToRoundedInt() + "<- ");
-#endif
 
             previousChild = flowableChild;
          }

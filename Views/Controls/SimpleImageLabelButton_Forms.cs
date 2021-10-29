@@ -26,7 +26,7 @@
 // SOFTWARE.
 // *********************************************************************************
 
-// #define USE_BACK_COLOR
+// #define SHOW_BACK_COLORS
 
 namespace Com.MarcusTS.UI.XamForms.Views.Controls
 {
@@ -286,7 +286,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             ButtonLabel.FontFamily = fontFamilyOverride;
          }
 
-#if USE_BACK_COLOR
+#if SHOW_BACK_COLORS
          //ButtonLabel.WidthRequest = 200;
          //ButtonLabel.HeightRequest = 50;
          ButtonLabel.BackgroundColor = Color.Yellow;
