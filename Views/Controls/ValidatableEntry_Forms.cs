@@ -151,16 +151,19 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                                                        IsPasswordShowing = !IsPasswordShowing;
 
                                                        MainThread.BeginInvokeOnMainThread(
+                                                          // ReSharper disable once AsyncVoidLambda
+                                                          async
                                                           () =>
                                                           {
-                                                             Task.Delay( 100 ).FireAndFuhgetAboutIt();
+                                                             await Task.Delay( 100 ).WithoutChangingContext();
 
-                                                             MainThread.BeginInvokeOnMainThread( () =>
-                                                             {
-                                                                // Go back to editing
-                                                                EditableEntry.Focus();
-                                                                EditableEntry.CursorPosition = cursorIdx;
-                                                             } );
+                                                             MainThread.BeginInvokeOnMainThread( 
+                                                                () =>
+                                                                {
+                                                                   // Go back to editing
+                                                                   EditableEntry.Focus();
+                                                                   EditableEntry.CursorPosition = cursorIdx;
+                                                                } );
                                                           } );
                                                     };
                   _showHideImage.GestureRecognizers.Add( showHidePasswordGesture );

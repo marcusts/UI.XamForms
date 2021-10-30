@@ -188,10 +188,11 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          {
             // HACK Added 2021-09-01 due to native crashes
             MainThread.BeginInvokeOnMainThread(
+               async
                () =>
                {
                   IsVisible = isVisible;
-                  RaiseBottomToolbarHeightChangedTask().FireAndFuhgetAboutIt();
+                  await RaiseBottomToolbarHeightChangedTask().WithoutChangingContext();
                } );
          }
 
@@ -335,16 +336,13 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                   toolbarItem.ButtonStateChangedTask.AddIfNotAlreadyThere
                   (
                      this,
-                     dict =>
+                     async dict =>
                      {
                         if ( toolbarItem.IsSelected )
                         {
                            // This all raises the CurrentStateChangedTask task; see below.
-                           _bindingContextAsHavingCurrentState.GoToAppState( toolbarItem.SelectionKey )
-                                                              .FireAndFuhgetAboutIt();
+                           await _bindingContextAsHavingCurrentState.GoToAppState( toolbarItem.SelectionKey ).WithoutChangingContext();
                         }
-
-                        return Task.CompletedTask;
                      }
                   );
 

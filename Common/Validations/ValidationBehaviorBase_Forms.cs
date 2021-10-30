@@ -44,13 +44,12 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
    public abstract class ValidationBehaviorBase_Forms : Behavior, IValidationBehaviorBase_Forms
    {
-      private bool _validationConditionsSetOnce;
-      public  bool IsFocused { get; private set; }
-
-      public VisualElement          BoundHost            { get; private set; }
-      public IThreadSafeAccessor    IsValid              { get; } = new ThreadSafeAccessor(0);
-      public IResponsiveTasks       IsValidChangedTask   { get; } = new ResponsiveTasks(1);
-      public IIsValidCondition_PI[] ValidationConditions { get; private set; }
+      private bool                   _validationConditionsSetOnce;
+      public  bool                   IsFocused            { get; private set; }
+      public  VisualElement          BoundHost            { get; private set; }
+      public  IThreadSafeAccessor    IsValid              { get; } = new ThreadSafeAccessor( 0 );
+      public  IResponsiveTasks       IsValidChangedTask   { get; } = new ResponsiveTasks( 1 );
+      public  IIsValidCondition_PI[] ValidationConditions { get; private set; }
 
       // WARNING Cannot send in ValidationConditions or any list,
       //         as these get converted to separate param value, so do not arrive in the same form as they were published.
@@ -59,26 +58,26 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
       public Task RevalidateAllConditions()
       {
          MainThread.BeginInvokeOnMainThread(
-
             // ReSharper disable once AsyncVoidLambda
-            () =>
+            async
+               () =>
             {
-               if (BoundHost.IsNullOrDefault())
+               if ( BoundHost.IsNullOrDefault() )
                {
                   IsValid.SetFalse();
                }
-               else if (ValidationConditions.IsAnEmptyList() && !_validationConditionsSetOnce)
+               else if ( ValidationConditions.IsAnEmptyList() && !_validationConditionsSetOnce )
                {
-                  ResetAndRevalidateAllConditions().FireAndFuhgetAboutIt();
+                  await ResetAndRevalidateAllConditions().WithoutChangingContext();
                }
                else
                {
                   var allTrue = true;
                   var values  = GetValuesFromView();
-                  foreach (var condition in ValidationConditions)
+                  foreach ( var condition in ValidationConditions )
                   {
-                     condition.RevalidateSingleCondition(values.Item1, values.Item2).FireAndFuhgetAboutIt();
-                     if (condition.IsValid.IsFalse())
+                     await condition.RevalidateSingleCondition( values.Item1, values.Item2 ).WithoutChangingContext();
+                     if ( condition.IsValid.IsFalse() )
                      {
                         allTrue = false;
 
@@ -86,29 +85,29 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                      }
                   }
 
-                  SetIsValid(allTrue).FireAndFuhgetAboutIt();
+                  await SetIsValid( allTrue ).WithoutChangingContext();
                }
-            });
+            } );
 
          return Task.CompletedTask;
       }
 
-      public async Task SetIsValid(bool isValid)
+      public async Task SetIsValid( bool isValid )
       {
-         if (BoundHost == null)
+         if ( BoundHost == null )
          {
             IsValid.SetFalse();
          }
 
-         await IsValid.SetIsTrueOrFalse(isValid, IsValidChangedTask).WithoutChangingContext();
+         await IsValid.SetIsTrueOrFalse( isValid, IsValidChangedTask ).WithoutChangingContext();
       }
 
-      protected virtual Task AfterAttached(VisualElement bindableAsVisualElement)
+      protected virtual Task AfterAttached( VisualElement bindableAsVisualElement )
       {
          return Task.CompletedTask;
       }
 
-      protected virtual Task AfterUnattached(VisualElement bindableAsVisualElement)
+      protected virtual Task AfterUnattached( VisualElement bindableAsVisualElement )
       {
          return Task.CompletedTask;
       }
@@ -117,32 +116,32 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
       protected abstract (object, object) GetValuesFromView();
 
-      protected override void OnAttachedTo(BindableObject bindable)
+      protected override void OnAttachedTo( BindableObject bindable )
       {
-         base.OnAttachedTo(bindable);
+         base.OnAttachedTo( bindable );
 
-         if (bindable is VisualElement bindableAsVisualElement)
+         if ( bindable is VisualElement bindableAsVisualElement )
          {
             BoundHost           =  bindableAsVisualElement;
             BoundHost.Focused   += OnFocused;
             BoundHost.Unfocused += OnUnfocused;
 
-            AfterAttached(bindableAsVisualElement).FireAndFuhgetAboutIt();
+            AfterAttached( bindableAsVisualElement ).FireAndFuhgetAboutIt();
          }
       }
 
-      protected override void OnDetachingFrom(BindableObject bindable)
+      protected override void OnDetachingFrom( BindableObject bindable )
       {
          BoundHost.Focused   -= OnFocused;
          BoundHost.Unfocused -= OnUnfocused;
 
-         base.OnDetachingFrom(bindable);
+         base.OnDetachingFrom( bindable );
 
          BoundHost = default;
 
-         if (bindable is VisualElement bindableAsVisualElement)
+         if ( bindable is VisualElement bindableAsVisualElement )
          {
-            AfterUnattached(bindableAsVisualElement).FireAndFuhgetAboutIt();
+            AfterUnattached( bindableAsVisualElement ).FireAndFuhgetAboutIt();
          }
       }
 
@@ -173,7 +172,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          ValidationConditions         = GetValidationConditions();
          _validationConditionsSetOnce = true;
 
-         if (ValidationConditions.IsDifferentThan(previousValidationConditions))
+         if ( ValidationConditions.IsDifferentThan( previousValidationConditions ) )
          {
             await ValidationConditionsChanged.RunAllTasksUsingDefaults().WithoutChangingContext();
             await RevalidateAllConditions().WithoutChangingContext();

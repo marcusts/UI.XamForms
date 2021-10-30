@@ -31,7 +31,7 @@
 // #define SHOW_BACK_COLORS
 
 // DOES NOTHING FOR ANDROID VIEWS
-#define RECREATE_ON_MAIN_THREAD
+// #define RECREATE_ON_MAIN_THREAD
 
 namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 {

@@ -461,10 +461,11 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             {
                headerCellAsImageLabelButton.ButtonCommand =
                   new Command(
+                     // ReSharper disable once AsyncVoidLambda
+                     async
                      () =>
                      {
-                        // IMPORTANT Creating a new root because the tap breaks any existing TPL chain.
-                        SortAnimatableLayout().ConsiderBeginInvokeTaskOnMainThread( true ).FireAndFuhgetAboutIt();
+                        await SortAnimatableLayout().ConsiderBeginInvokeTaskOnMainThread( true ).WithoutChangingContext();
                      } );
 
                var canSort = new CanSort();

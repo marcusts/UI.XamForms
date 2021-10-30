@@ -78,9 +78,12 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
       {
          // HACK Added 2021-09-01 due to native crashes
          MainThread.BeginInvokeOnMainThread(
+            // ReSharper disable once AsyncVoidLambda
+            async
             () =>
             {
-               var viewModel = PrepareForViewModelStateChange<InterfaceT, ClassT>( nextState, false );
+               var viewModel = await PrepareForViewModelStateChange<InterfaceT, ClassT>( nextState, false )
+                 .WithoutChangingContext();
 
                // Redundant assignments because the view model is stored in the DI Container. ... but harmless
                viewModel.NextState        = nextState;
@@ -89,7 +92,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
                viewModel.OnOutcomeChanged = HandleOnOutcomeChanged;
 
                // Fires the binding context changed for the presenter
-               SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).FireAndFuhgetAboutIt();
+               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).WithoutChangingContext();
             } );
 
          return Task.CompletedTask;
@@ -101,9 +104,12 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
       {
          // HACK Added 2021-09-01 due to native crashes
          MainThread.BeginInvokeOnMainThread(
+            // ReSharper disable once AsyncVoidLambda
+            async
             () =>
             {
-               var viewModel = PrepareForViewModelStateChange<InterfaceT, ClassT>( newState, true );
+               var viewModel = await PrepareForViewModelStateChange<InterfaceT, ClassT>( newState, true )
+                 .WithoutChangingContext();
 
                // Don't need to worry about the bool return condition in this case. The toolbar will ignore this change except
                // to set the physical toolbar item as selected.
@@ -112,15 +118,15 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
 
                // WARNING Do not use main thread -- crashes IOS
                // Forcing app state; can't get the spinner turned off without this
-               GoToAppState( CurrentState ).FireAndFuhgetAboutIt();
+               await GoToAppState( CurrentState ).WithoutChangingContext();
 
                if ( CurrentStateChangedTask.IsNotNullOrDefault() )
                {
-                  CurrentStateChangedTask.RunAllTasksUsingDefaults( CurrentState ).FireAndFuhgetAboutIt();
+                  await CurrentStateChangedTask.RunAllTasksUsingDefaults( CurrentState ).WithoutChangingContext();
                }
 
                // Fires the binding context changed for the presenter
-               SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).FireAndFuhgetAboutIt();
+               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).WithoutChangingContext();
             } );
 
          return Task.CompletedTask;
@@ -162,7 +168,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
 
             // ReSharper disable once AsyncVoidLambda
             async
-               () =>
+            () =>
             {
                // Force the state; the spinner can gets stuck if the app state does not change.
                await GoToAppState( viewModel.Outcome == Outcomes.Next
@@ -173,22 +179,22 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
          return Task.CompletedTask;
       }
 
-      private InterfaceT PrepareForViewModelStateChange<InterfaceT, ClassT>(
+      private async Task<InterfaceT> PrepareForViewModelStateChange<InterfaceT, ClassT>(
          string newState, bool isToolbarVisible )
          where ClassT : class, InterfaceT where InterfaceT : class
       {
          if ( IsToolbarVisible != isToolbarVisible )
          {
             IsToolbarVisible = isToolbarVisible;
-            IsToolbarVisibleChangedTask.RunAllTasksUsingDefaults( IsToolbarVisible ).FireAndFuhgetAboutIt();
+            await IsToolbarVisibleChangedTask.RunAllTasksUsingDefaults( IsToolbarVisible ).WithoutChangingContext();
          }
 
          // Turn on the progress spinner
          _spinnerHost.IsBusyShowing = true;
 
          var viewModel = DIContainer.RegisterAndResolveAsInterface<ClassT, InterfaceT>();
-         SetUpViewModel( viewModel, newState ).FireAndFuhgetAboutIt();
-         ProcessViewModelBeforeSettingAsCurrent( viewModel ).FireAndFuhgetAboutIt();
+         await SetUpViewModel( viewModel, newState ).WithoutChangingContext();
+         await ProcessViewModelBeforeSettingAsCurrent( viewModel ).WithoutChangingContext();
 
          return viewModel;
       }

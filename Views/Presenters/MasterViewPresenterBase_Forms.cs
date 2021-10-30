@@ -27,7 +27,7 @@
 // *********************************************************************************
 
 // DOES NOTHING FOR ANDROID VIEWS
-#define CHANGE_CONTENT_VIEW_ON_MAIN_THREAD
+// #define CHANGE_CONTENT_VIEW_ON_MAIN_THREAD
 
 namespace Com.MarcusTS.UI.XamForms.Views.Presenters
 {

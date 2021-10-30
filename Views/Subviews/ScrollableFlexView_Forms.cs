@@ -269,8 +269,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                   () =>
                   {
                      MainThread.BeginInvokeOnMainThread(
-
-                        // ReSharper disable once AsyncVoidLambda
                         () =>
                         {
                            // Go back to editing

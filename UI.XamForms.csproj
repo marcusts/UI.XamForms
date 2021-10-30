@@ -4,15 +4,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Com.MarcusTS.UI.XamForms</AssemblyName>
     <RootNamespace>Com.MarcusTS.UI.XamForms</RootNamespace>
-    <Version>2.0.2</Version>
+    <Version>2.0.3</Version>
     <Authors>Stephen Marcus</Authors>
     <Company>Marcus Technical Services, Inc.</Company>
     <Product>UIXamForms</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Xamarin.Forms abstract classes and utilities to support creating flowable animated apps.</Description>
     <Copyright>2021, Marcus Technical Services, Inc.</Copyright>
-    <AssemblyVersion>2.0.2.0</AssemblyVersion>
-    <FileVersion>2.0.2.0</FileVersion>
+    <AssemblyVersion>2.0.3.0</AssemblyVersion>
+    <FileVersion>2.0.3.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
@@ -70,7 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Com.MarcusTS.PlatformIndependentShared" Version="2.0.2" />
+    <PackageReference Include="Com.MarcusTS.PlatformIndependentShared" Version="2.0.3" />
     <PackageReference Include="Com.MarcusTS.ResponsiveTasks" Version="2.0.3" />
     <PackageReference Include="Com.MarcusTS.SharedUtils" Version="2.0.2" />
     <PackageReference Include="Com.MarcusTS.SmartDI" Version="2.0.2" />

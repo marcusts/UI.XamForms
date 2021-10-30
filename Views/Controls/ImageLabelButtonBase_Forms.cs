@@ -349,14 +349,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
                // IMPORTANT Restarting the TPL root
                MainThread.BeginInvokeOnMainThread(
-
                   // ReSharper disable once AsyncVoidLambda
+                  async
                   () =>
                   {
-                     imageLabelButton.AfterButtonStateChanged().FireAndFuhgetAboutIt();
-                     imageLabelButton.BroadcastIfSelected().FireAndFuhgetAboutIt();
+                     await imageLabelButton.AfterButtonStateChanged().WithoutChangingContext();
+                     await imageLabelButton.BroadcastIfSelected().WithoutChangingContext();
                      imageLabelButton.UpdateCurrentStyleFromButtonState( newVal );
-                     imageLabelButton.ButtonStateChangedTask.RunAllTasksUsingDefaults( newVal ).FireAndFuhgetAboutIt();
+                     await imageLabelButton.ButtonStateChangedTask.RunAllTasksUsingDefaults( newVal ).WithoutChangingContext();
                   }
                );
             }
@@ -1294,11 +1294,13 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          if ( IsEnabled != newCanExecute )
          {
             MainThread.BeginInvokeOnMainThread(
+               // ReSharper disable once AsyncVoidLambda
+               async
                () =>
                {
                   IsEnabled = newCanExecute;
                   OnIsEnabledChanged();
-                  IsEnabledChangedTask.RunAllTasksUsingDefaults( IsEnabled ).FireAndFuhgetAboutIt();
+                  await IsEnabledChangedTask.RunAllTasksUsingDefaults( IsEnabled ).WithoutChangingContext();
                } );
          }
       }

@@ -30,13 +30,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 {
    using System;
    using System.ComponentModel;
-   using System.Globalization;
    using Com.MarcusTS.PlatformIndependentShared.Common.Utils;
    using Com.MarcusTS.ResponsiveTasks;
-   using Com.MarcusTS.UI.XamForms.Common.Images;
-   using Com.MarcusTS.UI.XamForms.Common.Utils;
    using Com.MarcusTS.SharedUtils.Utils;
    using Com.MarcusTS.UI.XamForms.Common.Converters;
+   using Com.MarcusTS.UI.XamForms.Common.Images;
+   using Com.MarcusTS.UI.XamForms.Common.Utils;
    using Xamarin.Forms;
 
    /// <summary>
@@ -67,8 +66,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
    /// <seealso cref="ICustomCheckBox_Forms" />
    public class CustomCheckBox_Forms : Image, ICustomCheckBox_Forms
    {
-      private static readonly double DEFAULT_WIDTH_HEIGHT = 24.0.AdjustForOsAndDevice();
-
       /// <summary>
       /// The checkbox checked image
       /// </summary>
@@ -82,16 +79,16 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       public static readonly BindableProperty IsCheckedProperty =
          CreateCheckBoxBindableProperty
          (
-            nameof(IsChecked),
-            default(bool),
+            nameof( IsChecked ),
+            default( bool ),
             BindingMode.TwoWay,
-            (checkBox, oldVal, newVal) =>
+            ( checkBox, oldVal, newVal ) =>
             {
-               checkBox.IsCheckedChangedTask.RunAllTasksUsingDefaults(checkBox.IsChecked).FireAndFuhgetAboutIt();
+               checkBox.IsCheckedChangedTask.RunAllTasksUsingDefaults( checkBox.IsChecked ).FireAndFuhgetAboutIt();
             }
          );
 
-      private double _widthHeight { get; set; } = DEFAULT_WIDTH_HEIGHT;
+      private static readonly double DEFAULT_WIDTH_HEIGHT = 24.0.AdjustForOsAndDevice();
 
       /// <summary>
       /// Initializes a new instance of the <see cref="CustomCheckBox_Forms" /> class.
@@ -104,17 +101,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          Aspect        = Aspect.AspectFit;
          var imageTapGesture = new TapGestureRecognizer();
          imageTapGesture.Tapped += ImageTapGestureOnTapped;
-         GestureRecognizers.Add(imageTapGesture);
+         GestureRecognizers.Add( imageTapGesture );
          PropertyChanged += OnPropertyChanged;
 
-         this.SetUpBinding(SourceProperty, nameof(IsChecked),
-            converter: IsCheckedToImageSourceConverter.INSTANCE, source: this, bindingMode: BindingMode.OneWay);
+         this.SetUpBinding( SourceProperty, nameof( IsChecked ),
+            converter: IsCheckedToImageSourceConverter.INSTANCE, source: this, bindingMode: BindingMode.OneWay );
       }
 
-      /// <summary>
-      /// The checked changed event.
-      /// </summary>
-      public IResponsiveTasks IsCheckedChangedTask { get; set; } = new ResponsiveTasks(1);
+      private double _widthHeight { get; set; } = DEFAULT_WIDTH_HEIGHT;
 
       /// <summary>
       /// Gets or sets a value indicating whether this <see cref="CustomCheckBox_Forms" /> is checked.
@@ -122,9 +116,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       /// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
       public bool IsChecked
       {
-         get => (bool)GetValue(IsCheckedProperty);
-         set => SetValue(IsCheckedProperty, value);
+         get => (bool)GetValue( IsCheckedProperty );
+         set => SetValue( IsCheckedProperty, value );
       }
+
+      /// <summary>
+      /// The checked changed event.
+      /// </summary>
+      public IResponsiveTasks IsCheckedChangedTask { get; set; } = new ResponsiveTasks( 1 );
 
       public double WidthHeight
       {
@@ -137,45 +136,45 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          }
       }
 
-      private void ImageTapGestureOnTapped(object sender, EventArgs eventArgs)
+      public static BindableProperty CreateCheckBoxBindableProperty<PropertyTypeT>
+      (
+         string                                                     localPropName,
+         PropertyTypeT                                              defaultVal     = default,
+         BindingMode                                                bindingMode    = BindingMode.OneWay,
+         Action<CustomCheckBox_Forms, PropertyTypeT, PropertyTypeT> callbackAction = null
+      )
       {
-         if (IsEnabled)
+         return BindableUtils_Forms.CreateBindableProperty( localPropName, defaultVal, bindingMode, callbackAction );
+      }
+
+      private void ImageTapGestureOnTapped( object sender, EventArgs eventArgs )
+      {
+         if ( IsEnabled )
          {
             IsChecked = !IsChecked;
          }
       }
 
-      private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+      private void OnPropertyChanged( object sender, PropertyChangedEventArgs e )
       {
-         if (e.IsNotNullOrDefault() && e.PropertyName.IsSameAs(nameof(IsEnabled)))
+         if ( e.IsNotNullOrDefault() && e.PropertyName.IsSameAs( nameof( IsEnabled ) ) )
          {
             Opacity = IsEnabled ? UIConst_PI.VISIBLE_OPACITY : UIConst_PI.VISIBLE_OPACITY / 2;
          }
-      }
-
-      public static BindableProperty CreateCheckBoxBindableProperty<PropertyTypeT>
-      (
-         string                                                        localPropName,
-         PropertyTypeT                                                 defaultVal     = default,
-         BindingMode                                                   bindingMode    = BindingMode.OneWay,
-         Action<CustomCheckBox_Forms, PropertyTypeT, PropertyTypeT> callbackAction = null
-      )
-      {
-         return BindableUtils_Forms.CreateBindableProperty(localPropName, defaultVal, bindingMode, callbackAction);
       }
 
       private class IsCheckedToImageSourceConverter : OneWayConverter<bool, ImageSource>
       {
          public static readonly IsCheckedToImageSourceConverter INSTANCE = new IsCheckedToImageSourceConverter();
 
-         protected override ImageSource Convert(bool value, object parameter)
+         protected override ImageSource Convert( bool value, object parameter )
          {
-            if (value)
+            if ( value )
             {
-               return ImageSource.FromResource(CHECKBOX_CHECKED_IMAGE, typeof(SharedImageUtils).Assembly);
+               return ImageSource.FromResource( CHECKBOX_CHECKED_IMAGE, typeof( SharedImageUtils ).Assembly );
             }
 
-            return ImageSource.FromResource(CHECKBOX_UN_CHECKED_IMAGE, typeof(SharedImageUtils).Assembly);
+            return ImageSource.FromResource( CHECKBOX_UN_CHECKED_IMAGE, typeof( SharedImageUtils ).Assembly );
          }
       }
    }

@@ -46,21 +46,23 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
       Delegates_Forms.HandleOnOutcomeChangedDelegate OnOutcomeChanged { get; set; }
       Outcomes                                       Outcome          { get; }
 
-      Task SetOutcome(Outcomes outcome);
+      Task SetOutcome( Outcomes outcome );
    }
 
    public class WizardViewModel_Forms : TitledViewModel_PI, IWizardViewModel_Forms
    {
       public WizardViewModel_Forms()
       {
-         NextCommand = new Command(() => RunFinalValidation().FireAndFuhgetAboutIt(),
-            () => ValidationHelper.PageIsValid);
-         CancelCommand = new Command(() => SetOutcome(Outcomes.Cancel).FireAndFuhgetAboutIt());
+         // ReSharper disable once AsyncVoidLambda
+         NextCommand = new Command( async () => await RunFinalValidation().WithoutChangingContext(),
+            () => ValidationHelper.PageIsValid );
+         // ReSharper disable once AsyncVoidLambda
+         CancelCommand = new Command( async () => await SetOutcome( Outcomes.Cancel ).WithoutChangingContext() );
 
-         ValidationHelper.PageIsValidChangedTask.AddIfNotAlreadyThere(this, HandlePageIsValidChangedTask);
+         ValidationHelper.PageIsValidChangedTask.AddIfNotAlreadyThere( this, HandlePageIsValidChangedTask );
 
          // Safe dummy
-         OnOutcomeChanged = (model, state, cancelState) => Task.CompletedTask;
+         OnOutcomeChanged = ( model, state, cancelState ) => Task.CompletedTask;
       }
 
       public Command                                        CancelCommand    { get; set; }
@@ -74,11 +76,11 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
       public IValidationViewModelHelper ValidationHelper { get; set; } =
          new ValidationViewModelHelper_PI();
 
-      public async Task SetOutcome(Outcomes outcome)
+      public async Task SetOutcome( Outcomes outcome )
       {
          Outcome = outcome;
 
-         await OnOutcomeChanged.Invoke(this, NextState, CancelState).WithoutChangingContext();
+         await OnOutcomeChanged.Invoke( this, NextState, CancelState ).WithoutChangingContext();
       }
 
       protected Task VerifyCommandCanExecute()
@@ -88,20 +90,20 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
          return Task.CompletedTask;
       }
 
-      private async Task HandlePageIsValidChangedTask(IResponsiveTaskParams paramDict)
+      private async Task HandlePageIsValidChangedTask( IResponsiveTaskParams paramDict )
       {
          await VerifyCommandCanExecute().WithoutChangingContext();
       }
 
       private async Task RunFinalValidation()
       {
-         if (FinalValidation.IsNullOrDefault())
+         if ( FinalValidation.IsNullOrDefault() )
          {
-            await OnOutcomeChanged.Invoke(this, NextState, CancelState).WithoutChangingContext();
+            await OnOutcomeChanged.Invoke( this, NextState, CancelState ).WithoutChangingContext();
          }
          else
          {
-            await FinalValidation.Invoke(this).WithoutChangingContext();
+            await FinalValidation.Invoke( this ).WithoutChangingContext();
          }
       }
    }
