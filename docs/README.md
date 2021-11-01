@@ -4,7 +4,7 @@
 # A Light-Weight Framework for Modern, Animated Apps Using Responsive Tasks
 
 &nbsp;
-![image](https://gitlab.com/marcusts1/nugetimages/-/raw/master/Modern_App_Demo_Master_FINAL.gif)
+![](https://gitlab.com/marcusts1/nugetimages/-/raw/master/Modern_App_Demo_Master_FINAL.gif)
 
 We have said -- *more than once* -- that a framework is a way of doing something very badly while pretending to save time.  Projects like **Prism** break more rules than a guest with Tourette's Syndrome at a tea party.  They claim to *"take care of the coding for you"*. But they do it by ***violating*** design principles and coding standards.  Those ideals aren't just *"polite rules for nice people"*.  They are what make an app safe, reliable, manageable, scalable, affordable, and user-friendly.  Design is ***everything***.
 
