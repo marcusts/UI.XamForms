@@ -1,5 +1,5 @@
 ﻿// *********************************************************************************
-// Copyright @2021 Marcus Technical Services, Inc.
+// Copyright @2022 Marcus Technical Services, Inc.
 // <copyright
 // file=FlowableUtils_Forms.cs
 // company="Marcus Technical Services, Inc.">
@@ -136,7 +136,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                // Don't bother with the fade
                await view.TranslateTo( moveX, moveY, translateBoundsMilliseconds,
                              translateBoundsEasing ?? Easing.Linear )
-                         .WithoutChangingContext();
+                         .ConfigureAwait(true);
             }
             else
             {
@@ -146,7 +146,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                                           translateBoundsEasing ?? Easing.Linear ),
                                        view.FadeTo( nextOpacity, fadeInMilliseconds, fadeEasing ?? Easing.Linear ),
                                     };
-               await Task.WhenAll( translateTasks ).WithoutChangingContext();
+               await Task.WhenAll( translateTasks ).ConfigureAwait(true);
             }
          }
       }

@@ -1,5 +1,5 @@
 ﻿// *********************************************************************************
-// Copyright @2021 Marcus Technical Services, Inc.
+// Copyright @2022 Marcus Technical Services, Inc.
 // <copyright
 // file=FlowableChild_Forms.cs
 // company="Marcus Technical Services, Inc.">
@@ -215,7 +215,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       public async Task MakeAllPendingChanges()
       {
          // IMPORTANT  No longer optional
-         await FlowToNext().ConsiderBeginInvokeTaskOnMainThread( true ).WithoutChangingContext();
+         await FlowToNext().ConsiderBeginInvokeTaskOnMainThread( true ).ConfigureAwait(true);
 
          // PRIVATE METHODS
          async Task FlowToNext()
@@ -238,7 +238,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                              : _flowParent.FlowSettings.FadeInEasing,
                           NextOpacity
                        )
-                      .WithoutChangingContext();
+                      .ConfigureAwait(true);
          }
       }
 
@@ -255,7 +255,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          var predecessorIsValid = realPredecessor.IsNotNullOrDefault();
 
-         await SetIsAnAlternate( predecessorIsValid && !realPredecessor.IsAnAlternate ).WithoutChangingContext();
+         await SetIsAnAlternate( predecessorIsValid && !realPredecessor.IsAnAlternate ).ConfigureAwait(true);
 
          var newBounds =
             new Rectangle
@@ -277,7 +277,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          // For assignment, requiring either a width or a height
          if ( NextBounds.IsDifferentThan( newBounds ) || Bounds.IsDifferentThan( newBounds ) )
          {
-            await SetNextBoundsAndMakeAllPendingChanges( newBounds ).WithoutChangingContext();
+            await SetNextBoundsAndMakeAllPendingChanges( newBounds ).ConfigureAwait(true);
 
             isChanged = true;
          }
@@ -334,7 +334,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
                // The styling helper applies its styles on this view externally
 
-               await IsSelectedChangedTask.RunAllTasksUsingDefaults( this ).WithoutChangingContext();
+               await IsSelectedChangedTask.RunAllTasksUsingDefaults( this ).ConfigureAwait(true);
             }
          }
       }
@@ -343,7 +343,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          NextBounds = rect;
 
-         await MakeAllPendingChanges().WithoutChangingContext();
+         await MakeAllPendingChanges().ConfigureAwait(true);
       }
 
       public Task SetNextFilteredOut( bool isFilteredOut )
@@ -364,7 +364,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             if ( DisplayOrder >= 0 )
             {
                // Force the position notification
-               await RefreshNextBoundsAndAlternationFromPredecessor( true, true ).WithoutChangingContext();
+               await RefreshNextBoundsAndAlternationFromPredecessor( true, true ).ConfigureAwait(true);
             }
          }
       }
@@ -377,7 +377,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             // Successor only reacts if they have a next bounds change.
             await SuccessorMustReconsiderBoundsTask.RunAllTasksUsingDefaults( forceChangeNotification )
-                                                   .WithoutChangingContext();
+                                                   .ConfigureAwait(true);
          }
       }
 
@@ -418,7 +418,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          var forceChangeNotification = paramDict.GetTypeSafeValue<bool>( 0 );
 
-         await RefreshNextBoundsAndAlternationFromPredecessor( true, forceChangeNotification ).WithoutChangingContext();
+         await RefreshNextBoundsAndAlternationFromPredecessor( true, forceChangeNotification ).ConfigureAwait(true);
       }
 
       /// <remarks>
