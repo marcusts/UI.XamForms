@@ -31,7 +31,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Devices
    using System.Linq;
    using Xamarin.Forms;
 
-   /// <summary>Set up Bindable Properties for KeyboardEnableEffect</summary>
+   /// <summary>Set up Bindable Properties for KeyboardEnableEffect_Forms</summary>
    public static class KeyboardEffect_Forms
    {
       /// <summary>Bindable property to Enable keyboard</summary>
@@ -86,7 +86,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Devices
 
          if (enableKeyboard)
          {
-            var toRemove = view.Effects.FirstOrDefault(e => e is KeyboardEnableEffect);
+            var toRemove = view.Effects.FirstOrDefault(e => e is KeyboardEnableEffect_Forms);
             if (toRemove != null)
             {
                view.Effects.Remove(toRemove);
@@ -94,7 +94,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Devices
          }
          else
          {
-            view.Effects.Add(new KeyboardEnableEffect());
+            view.Effects.Add(new KeyboardEnableEffect_Forms());
          }
       }
    }

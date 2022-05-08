@@ -1,7 +1,7 @@
 ﻿// *********************************************************************************
 // Copyright @2022 Marcus Technical Services, Inc.
 // <copyright
-// file=StringToDateTimeConverter.cs
+// file=KeyboardEnableEffect_Forms .cs
 // company="Marcus Technical Services, Inc.">
 // </copyright>
 // 
@@ -26,37 +26,17 @@
 // SOFTWARE.
 // *********************************************************************************
 
-namespace Com.MarcusTS.UI.XamForms.Common.Converters
+namespace Com.MarcusTS.UI.XamForms.Common.Devices
 {
-   using System;
+   using Xamarin.Forms;
 
    /// <summary>
-   /// Class StringToDateTimeConverter.
-   /// Implements the <see cref="DateTime" />
+   /// Enable Keyboard Effect
    /// </summary>
-   /// <seealso cref="DateTime" />
-   public class StringToDateTimeConverter : OneWayConverter<string, DateTime?>
+   public class KeyboardEnableEffect_Forms : RoutingEffect
    {
-      /// <summary>
-      /// The string to date time converter static
-      /// </summary>
-      public static readonly StringToDateTimeConverter
-         StringToDateTimeConverterStatic = new StringToDateTimeConverter();
-
-      /// <summary>
-      /// Converts the specified value.
-      /// </summary>
-      /// <param name="value">The value.</param>
-      /// <param name="parameter">The parameter.</param>
-      /// <returns>System.Nullable&lt;DateTime&gt;.</returns>
-      protected override DateTime? Convert(string value, object parameter)
-      {
-         if (DateTime.TryParse(value, out var dateTime))
-         {
-            return dateTime;
-         }
-
-         return null;
-      }
+      /// <inheritdoc />
+      public KeyboardEnableEffect_Forms() : base("UI.XamForms.Common.Devices.KeyboardEnableEffect_Forms")
+      { }
    }
 }

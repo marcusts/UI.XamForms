@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2019  Marcus Technical Services, Inc. <marcus@marcusts.com>
+﻿// Copyright (c) 2022 Marcus Technical Services, Inc. <marcus@marcusts.com>
 //
 // This file, DateTimeToPlainEnglishConverter.cs, is a part of a program called AccountViewMobile.
 //
