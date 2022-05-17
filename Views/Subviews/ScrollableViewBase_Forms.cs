@@ -66,7 +66,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
       private readonly IThreadSafeAccessor             IsInitializing = new ThreadSafeAccessor( 0 );
       private          IFlowableCollectionCanvas_Forms _animatableLayout;
-      private          double                          _childSpacing = UIConst_PI.MARGIN_SPACING_HALF_FACTOR;
+      private          double                          _childSpacing = UIConst_Forms.MARGIN_SPACING_HALF_FACTOR;
       private          ScrollView                      _scroller;
       private          bool                            _useScrollView = true;
       private          View                            _viewToSet;
@@ -83,10 +83,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          Margin =
             new Thickness(
-               UIConst_PI.MARGIN_SPACING_MEDIUM_FACTOR,
+               UIConst_Forms.MARGIN_SPACING_MEDIUM_FACTOR,
                0,
-               UIConst_PI.MARGIN_SPACING_MEDIUM_FACTOR,
-               UIConst_PI.MARGIN_SPACING_MEDIUM_FACTOR
+               UIConst_Forms.MARGIN_SPACING_MEDIUM_FACTOR,
+               UIConst_Forms.MARGIN_SPACING_MEDIUM_FACTOR
             );
 
          InputTransparent                        = false;
@@ -225,7 +225,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 #endif
 
          // TODO Consider moving this
-         _viewToSet.Margin = new Thickness( UIConst_PI.MARGIN_SPACING_MEDIUM_FACTOR );
+         _viewToSet.Margin = new Thickness( UIConst_Forms.MARGIN_SPACING_MEDIUM_FACTOR );
 
          await this.SetContentSafelyAndAwaitAllBranchingTasks( _viewToSet ).WithoutChangingContext();
       }

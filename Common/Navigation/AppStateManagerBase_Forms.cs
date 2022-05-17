@@ -31,7 +31,6 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
    using System.Linq;
    using System.Threading.Tasks;
    using Com.MarcusTS.PlatformIndependentShared.Common.Interfaces;
-   using Com.MarcusTS.PlatformIndependentShared.Common.Navigation;
    using Com.MarcusTS.PlatformIndependentShared.Common.Utils;
    using Com.MarcusTS.ResponsiveTasks;
    using Com.MarcusTS.SharedUtils.Utils;
@@ -44,10 +43,10 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
    public interface IAppStateManagerBase_Forms :
       ISetCurrentModule_PI,
       IProvideToolbarItemNamesAndSelectionStates_PI,
-      IHaveAndReportCurrentState_PI
+      IHaveAndReportCurrentState_Forms
    { }
 
-   public abstract class AppStateManagerBase_Forms : SimpleStateMachineBase_PI, IAppStateManagerBase_Forms
+   public abstract class AppStateManagerBase_Forms : SimpleStateMachineBase_Forms, IAppStateManagerBase_Forms
    {
       private readonly ICanShowProgressSpinner_Forms _spinnerHost;
 

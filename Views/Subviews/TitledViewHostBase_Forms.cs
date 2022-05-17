@@ -186,7 +186,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                   bindingContextAsWizard,
                   nextTabIndex++,
                   true,
-                  extraTopSpace: FlowableConst_PI.DEFAULT_EXTRA_TOP_MARGIN );
+                  extraTopSpace: FlowableConst_Forms.DEFAULT_EXTRA_TOP_MARGIN );
 
             AnimatedBaseLayout.SourceViews.Add( saveButton as View );
 
@@ -200,7 +200,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                   nextTabIndex++,
                   false,
                   Color.Red,
-                  extraTopSpace: FlowableConst_PI.SMALL_EXTRA_TOP_MARGIN,
+                  extraTopSpace: FlowableConst_Forms.SMALL_EXTRA_TOP_MARGIN,
                   backColor: Color.Transparent );
 
             ( (View)cancelButton ).Margin = new Thickness( ( (View)cancelButton ).Margin.Left,

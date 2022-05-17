@@ -67,8 +67,8 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
             (
                text,
                textColor ?? Color.White,
-               fontSize  ?? NamedSize.Small.ToFormsNamedSize().AdjustForOsAndDevice(), FlowableConst_PI.BUTTON_WIDTH,
-               FlowableConst_PI.BUTTON_HEIGHT,
+               fontSize  ?? NamedSize.Small.ToFormsNamedSize().AdjustForOsAndDevice(), FlowableConst_Forms.BUTTON_WIDTH,
+               FlowableConst_Forms.BUTTON_HEIGHT,
                bindingContext,
                backColor ?? Color.LimeGreen,
                default,
@@ -78,7 +78,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
             );
 
          button.ButtonCommand = command;
-         button.SetCornerRadiusFactor( UIConst_PI.MEDIUM_CORNER_RADIUS_FACTOR );
+         button.SetCornerRadiusFactor( UIConst_Forms.MEDIUM_CORNER_RADIUS_FACTOR );
          ( (View)button ).IsTabStop = true;
          ( (View)button ).TabIndex  = tabIndex;
          button.CanSelect           = false;
@@ -116,7 +116,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
          Easing    translateBoundsEasing       = null,
          uint      fadeInMilliseconds          = FlowableConst_PI.DEFAULT_FADE_IN_MILLISECONDS,
          Easing    fadeEasing                  = null,
-         double    nextOpacity                 = UIConst_PI.VISIBLE_OPACITY
+         double    nextOpacity                 = UIUtils_Forms.VISIBLE_OPACITY
       )
       {
          // Defaults for x and y are 0, so they have to be considered potential changes

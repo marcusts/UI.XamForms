@@ -910,7 +910,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       /// <summary>Calls the recreate image safely.</summary>
       protected void CallRecreateImageSafely()
       {
-         ThreadHelper.ConsiderBeginInvokeActionOnMainThread(
+         ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread(
             () =>
             {
                try

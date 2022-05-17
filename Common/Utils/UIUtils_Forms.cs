@@ -1367,7 +1367,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       /// <returns>System.Single.</returns>
       public static double GetStartingYForRuntimePlatform()
       {
-         return DeviceUtils_PI.IsIos() ? IOS_TOP_MARGIN : 0;
+         return DeviceUtils_Forms.IsIos() ? IOS_TOP_MARGIN : 0;
       }
 
       /*
@@ -1702,7 +1702,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       {
          shapeView.SetBasicViewDefaults();
 
-         shapeView.SetCornerRadiusFactor( UIConst_PI.DEFAULT_CORNER_RADIUS_FACTOR );
+         shapeView.SetCornerRadiusFactor( UIConst_Forms.DEFAULT_CORNER_RADIUS_FACTOR );
          shapeView.IsClippedToBounds = true;
          shapeView.Margin            = 0;
          shapeView.Padding           = 0;
@@ -1784,7 +1784,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
          switch ( namedSize )
          {
             case NamedSize.Body:
-               return DeviceUtils_PI.IsIos() ? 17 : 16;
+               return DeviceUtils_Forms.IsIos() ? 17 : 16;
 
             case NamedSize.Caption:
                return 12;
@@ -1792,10 +1792,10 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
             case NamedSize.Header:
                /*
                // TODO challenge this wild number
-               return DeviceUtils_PI.IsIos() ? 17 : 96;
+               return DeviceUtils_Forms.IsIos() ? 17 : 96;
                */
                // HACK
-               return DeviceUtils_PI.IsIos() ? 17 : 19;
+               return DeviceUtils_Forms.IsIos() ? 17 : 19;
 
             case NamedSize.Large:
                return 22;
@@ -1804,19 +1804,19 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                return 17;
 
             case NamedSize.Micro:
-               return DeviceUtils_PI.IsIos() ? 12 : 10;
+               return DeviceUtils_Forms.IsIos() ? 12 : 10;
 
             case NamedSize.Small:
                return 14;
 
             case NamedSize.Subtitle:
-               return DeviceUtils_PI.IsIos() ? 22 : 16;
+               return DeviceUtils_Forms.IsIos() ? 22 : 16;
 
             case NamedSize.Title:
-               return DeviceUtils_PI.IsIos() ? 28 : 24;
+               return DeviceUtils_Forms.IsIos() ? 28 : 24;
 
             default: // NamedSize.Default:
-               return DeviceUtils_PI.IsIos() ? 17 : 14;
+               return DeviceUtils_Forms.IsIos() ? 17 : 14;
          }
       }
 

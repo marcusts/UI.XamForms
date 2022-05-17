@@ -473,7 +473,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                                       _flowParent.ItemsCanvas.Width.ToRoundedInt() + "<-" );
 #endif
 
-                     ThreadHelper.ConsiderBeginInvokeActionOnMainThread( SetWidthBasedOnCanvas,
+                     ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread( SetWidthBasedOnCanvas,
 
 #if SET_CANVAS_WIDTH_ON_MAIN_THREAD
                         true

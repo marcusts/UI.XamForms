@@ -38,6 +38,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
    using Com.MarcusTS.PlatformIndependentShared.Common.Utils;
    using Com.MarcusTS.ResponsiveTasks;
    using Com.MarcusTS.SharedUtils.Utils;
+   using Com.MarcusTS.UI.XamForms.Common.Interfaces;
    using Com.MarcusTS.UI.XamForms.Common.Utils;
    using Com.MarcusTS.UI.XamForms.Views.Controls;
    using Xamarin.Essentials;
@@ -55,20 +56,20 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
       private static readonly double LABEL_PUSH = ( DEFAULT_IMAGE_WIDTH_HEIGHT / 2.75 ).AdjustForOsAndDevice();
       private static readonly int    MASTER_TOOLBAR_SELECTION_GROUP = ++GlobalConstants.NEXT_SELECTION_GROUP;
 
-      private static readonly double TOOLBAR_AND_ITEM_RADIUS = UIConst_PI.MEDIUM_CORNER_RADIUS_FACTOR;
+      private static readonly double TOOLBAR_AND_ITEM_RADIUS = UIConst_Forms.MEDIUM_CORNER_RADIUS_FACTOR;
 
       private static readonly double TOOLBAR_HEIGHT = 70.0.AdjustForOsAndDevice();
-      private readonly Grid _grid = UIUtils_Forms.GetExpandingGrid();
-      private readonly IThreadSafeAccessor _rebuildToolbarEntered = new ThreadSafeAccessor( 0 );
-      private IHaveAndReportCurrentState_PI _bindingContextAsHavingCurrentState;
-      private double _bottomToolbarHeight;
-      private double? _fixedItemWidth = TOOLBAR_HEIGHT;
-      private string _imageResourcePath;
-      private Type _imageResourceType;
-      private bool _isJustified;
-      private object _lastBindingContext;
-      private double _marginAndSpacing = UIConst_PI.A_MARGIN_SPACING_SINGLE_FACTOR;
-      private (string, string)[] _toolbarItemNamesAndStates;
+      private readonly        Grid _grid = UIUtils_Forms.GetExpandingGrid();
+      private readonly        IThreadSafeAccessor _rebuildToolbarEntered = new ThreadSafeAccessor( 0 );
+      private                 IHaveAndReportCurrentState_Forms _bindingContextAsHavingCurrentState;
+      private                 double _bottomToolbarHeight;
+      private                 double? _fixedItemWidth = TOOLBAR_HEIGHT;
+      private                 string _imageResourcePath;
+      private                 Type _imageResourceType;
+      private                 bool _isJustified;
+      private                 object _lastBindingContext;
+      private                 double _marginAndSpacing = UIConst_Forms.A_MARGIN_SPACING_SINGLE_FACTOR;
+      private                 (string, string)[] _toolbarItemNamesAndStates;
 
       public interface IToolBarItem_Forms : ITriStateImageLabelButton_Forms
       { }
@@ -215,7 +216,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          _bindingContextAsHavingCurrentState?.CurrentStateChangedTask.UnsubscribeHost( this );
 
          // Might succeed or fail
-         _bindingContextAsHavingCurrentState = BindingContext as IHaveAndReportCurrentState_PI;
+         _bindingContextAsHavingCurrentState = BindingContext as IHaveAndReportCurrentState_Forms;
 
          if ( BindingContext is IProvideToolbarItemNamesAndSelectionStates_PI bindingContextAsProvidingNames )
          {

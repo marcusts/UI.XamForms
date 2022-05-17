@@ -76,7 +76,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       private static readonly double   DISPLAY_KIND_LABEL_HEIGHT = 15.0.AdjustForOsAndDevice();
       private static readonly double   MINIMUM_ROW_HEIGHT = DISPLAY_KIND_IMAGE_WIDTH_HEIGHT + DISPLAY_KIND_LABEL_HEIGHT;
       private static readonly double   ONE_SIDE_MARGIN_PADDING = 3.0.AdjustForOsAndDevice();
-      public static readonly double   HEADER_ROW_HEIGHT = UIConst_PI.DEFAULT_ENTRY_HEIGHT * Math.Round( 2.0 / 3.0 );
+      public static readonly double   HEADER_ROW_HEIGHT = UIConst_Forms.DEFAULT_ENTRY_HEIGHT * Math.Round( 2.0 / 3.0 );
 
       private static readonly double SMALL_FONT_SIZE =
          Device.GetNamedSize( NamedSize.Micro, typeof( Label ) ).AdjustForOsAndDevice( 0.8 );
@@ -398,7 +398,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
          // IMPORTANT The button back color over-rides the fill color, of the shape view below it !!!
          ( (SimpleImageLabelButton_Forms)retButton ).ButtonBackColor = UIConst_Forms.HEADER_AND_KEY_LINE_COLOR;
 
-         ( (SimpleImageLabelButton_Forms)retButton ).SetCornerRadiusFactor( UIConst_PI.MEDIUM_CORNER_RADIUS_FACTOR );
+         ( (SimpleImageLabelButton_Forms)retButton ).SetCornerRadiusFactor( UIConst_Forms.MEDIUM_CORNER_RADIUS_FACTOR );
          ( (SimpleImageLabelButton_Forms)retButton ).Margin  = STANDARD_MARGIN;
          ( (SimpleImageLabelButton_Forms)retButton ).Padding = STANDARD_PADDING;
 

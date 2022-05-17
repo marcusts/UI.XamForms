@@ -68,11 +68,11 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
    {
       private readonly IList<ICanBeValid_PI> _allBehaviors = new List<ICanBeValid_PI>();
       private readonly IThreadSafeAccessor IsInitializing = new ThreadSafeAccessor( 0 );
-      private          double _defaultEditCornerRadiusFactor = UIConst_PI.LARGE_CORNER_RADIUS_FACTOR;
+      private          double _defaultEditCornerRadiusFactor = UIConst_Forms.LARGE_CORNER_RADIUS_FACTOR;
       private          double _fontSize = UIConst_Forms.DEFAULT_ENTRY_FONT_SIZE;
       private          View _initiallyFocusedView;
-      private          double _itemHeight = UIConst_PI.DEFAULT_ENTRY_HEIGHT;
-      private          double _itemWidth = UIConst_PI.DEFAULT_ENTRY_WIDTH;
+      private          double _itemHeight = UIConst_Forms.DEFAULT_ENTRY_HEIGHT;
+      private          double _itemWidth = UIConst_Forms.DEFAULT_ENTRY_WIDTH;
       private          IDictionary<PropertyInfo, ViewModelValidationAttribute_PI> _propInfoDict;
 
       public ScrollableFlexView_Forms( ICanShowProgressSpinner_Forms spinnerHost ) : base ( spinnerHost )

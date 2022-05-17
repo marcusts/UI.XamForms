@@ -277,13 +277,13 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          if ( childHeight.IsDifferentThan( ChildHeightWithoutScrollBottomMargin ) )
          {
-            ThreadHelper.ConsiderBeginInvokeActionOnMainThread(
+            ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread(
                () => { ChildHeightWithoutScrollBottomMargin = childHeight; } );
          }
 
          if ( _setFullHeightBasedOnChildren && ( childHeight + _scrollBottomMargin ).IsDifferentThan( Height ) )
          {
-            ThreadHelper.ConsiderBeginInvokeActionOnMainThread(
+            ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread(
                () => { HeightRequest = childHeight + _scrollBottomMargin; } );
          }
       }
@@ -716,7 +716,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          _setChildPositionStatuses_Entered.SetFalse();
 
          // HACK For Android latency
-         if ( !DeviceUtils_PI.IsIos() )
+         if ( !DeviceUtils_Forms.IsIos() )
          {
             RequestMassChildChangesInParallel( FlowableChildChanges.CanvasWidthChange );
          }

@@ -86,7 +86,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       private static readonly double VALIDATION_IMAGE_RIGHT_MARGIN  = 4.0.AdjustForOsAndDevice();
 
       public static readonly double DEFAULT_BORDER_VIEW_BORDER_WIDTH =
-         ( DeviceUtils_PI.IsIos() ? 1.75 : 2.5 ).AdjustForOsAndDevice();
+         ( DeviceUtils_Forms.IsIos() ? 1.75 : 2.5 ).AdjustForOsAndDevice();
 
       public static readonly Color DEFAULT_INSTRUCTIONS_TEXT_COLOR = Color.Purple;
       public static readonly Color DEFAULT_VALID_TEXT_COLOR        = Color.Black;
@@ -109,7 +109,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          CreateValidatableViewBindablePropertyAndRespondByRefreshingStyles
          (
             nameof( BorderViewCornerRadiusFactor ),
-            (double)UIConst_PI.DEFAULT_CORNER_RADIUS_FACTOR
+            (double)UIConst_Forms.DEFAULT_CORNER_RADIUS_FACTOR
          );
 
       public static readonly BindableProperty BorderViewHeightProperty =
@@ -953,7 +953,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          void SetImageSource( IThreadSafeAccessor isValid )
          {
-            ThreadHelper.ConsiderBeginInvokeActionOnMainThread( SetSource,
+            ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread( SetSource,
 
 #if SET_IMAGE_SOURCE_ON_MAIN_THREAD
                true
@@ -1025,7 +1025,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       private void HandleValidatorIsValidChanged( bool isValid )
       {
-         ThreadHelper.ConsiderBeginInvokeActionOnMainThread( HandleIsValid,
+         ThreadHelper_Forms.ConsiderBeginInvokeActionOnMainThread( HandleIsValid,
 
 #if VALIDATE_ON_MAIN_THREAD
             true

@@ -57,7 +57,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
    {
       private readonly IThreadSafeAccessor _bindingContextSetOnce = new ThreadSafeAccessor( 0 );
       private readonly IThreadSafeAccessor _contentSetOnce        = new ThreadSafeAccessor( 0 );
-      private          double?             _cornerRadiusFactor    = UIConst_PI.DEFAULT_CORNER_RADIUS_FACTOR;
+      private          double?             _cornerRadiusFactor    = UIConst_Forms.DEFAULT_CORNER_RADIUS_FACTOR;
       private          double              _lastHeight;
       private          double?             _lastMinOfWidthAndHeight;
       private          double              _lastWidth;

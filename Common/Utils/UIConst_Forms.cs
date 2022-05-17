@@ -50,5 +50,33 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       public static readonly  double SPACER_HEIGHT           = 2.0.AdjustForOsAndDevice();
 
       public static readonly  Color HEADER_AND_KEY_LINE_COLOR           = Color.FromRgb(102, 153, 204);
+
+      public const double ANDROID_ADJUSTMENT = 1.5;
+
+      private static double CalcCornerRadiusFactor( double iosFactor )
+      {
+         return DeviceUtils_Forms.IsIos() ? iosFactor : ( iosFactor * ANDROID_ADJUSTMENT );
+      }
+
+      public static readonly double DEFAULT_CORNER_RADIUS_FACTOR = CalcCornerRadiusFactor( 0.075 );
+
+      public static readonly double MEDIUM_CORNER_RADIUS_FACTOR = CalcCornerRadiusFactor( 0.125 );
+
+      public static readonly double LARGE_CORNER_RADIUS_FACTOR = CalcCornerRadiusFactor( 0.175 );
+
+      public static readonly double DEFAULT_ENTRY_HEIGHT =
+         DeviceUtils_Forms.IsIos() ? 35.0.AdjustForOsAndDevice() : 40.0.AdjustForOsAndDevice();
+
+      public static readonly double DEFAULT_ENTRY_WIDTH = 275.00.AdjustForOsAndDevice();
+
+      public static readonly double A_MARGIN_SPACING_SINGLE_FACTOR = 10.0.AdjustForOsAndDevice();
+
+      public static readonly double DEFAULT_STACK_LAYOUT_SPACING = A_MARGIN_SPACING_SINGLE_FACTOR;
+
+      public static readonly double MARGIN_SPACING_DOUBLE_FACTOR = A_MARGIN_SPACING_SINGLE_FACTOR * 2;
+
+      public static readonly double MARGIN_SPACING_HALF_FACTOR = A_MARGIN_SPACING_SINGLE_FACTOR / 2;
+
+      public static readonly double MARGIN_SPACING_MEDIUM_FACTOR = A_MARGIN_SPACING_SINGLE_FACTOR * 1.5;
    }
 }

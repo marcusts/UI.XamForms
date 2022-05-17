@@ -86,8 +86,8 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
 
       public MasterSinglePage_Forms()
       {
-         Padding = new Thickness( 0, DeviceUtils_PI.IsIos() ? 30.0.AdjustForOsAndDevice() : 0, 0,
-            DeviceUtils_PI.IsIos() ? 10.0.AdjustForOsAndDevice() : 0 );
+         Padding = new Thickness( 0, DeviceUtils_Forms.IsIos() ? 30.0.AdjustForOsAndDevice() : 0, 0,
+            DeviceUtils_Forms.IsIos() ? 10.0.AdjustForOsAndDevice() : 0 );
 
 #if SHOW_BACK_COLORS
          BackgroundColor = Color.Yellow;
