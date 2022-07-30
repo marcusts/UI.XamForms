@@ -298,11 +298,11 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          // ELSE
          // Force-fire the creation of the views; they'll set their own binding contexts as needed
          await AnimatedBaseLayout.SetBindingContextSafelyAndAwaitAllBranchingTasks( BindingContext )
-                                 .WithoutChangingContext();
+                                 .AndReturnToCallingContext();
          await DerivedView.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms( BindingContext )
-                          .WithoutChangingContext();
+                          .AndReturnToCallingContext();
 
-         await RecreateTitledFlexHostViewUI().WithoutChangingContext();
+         await RecreateTitledFlexHostViewUI().AndReturnToCallingContext();
       }
 
       private Task HandleSpinnerOverlayHeightChanged( IResponsiveTaskParams paramDict )
@@ -332,7 +332,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             // ReSharper disable once RedundantArgumentDefaultValue
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -390,12 +390,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
 #endif
 
-            await AfterHandlingPostBindingContextTask().WithoutChangingContext();
+            await AfterHandlingPostBindingContextTask().AndReturnToCallingContext();
 
             // Set our own content
-            await this.SetContentSafelyAndAwaitAllBranchingTasks( AnimatedBaseLayoutAsView ).WithoutChangingContext();
+            await this.SetContentSafelyAndAwaitAllBranchingTasks( AnimatedBaseLayoutAsView ).AndReturnToCallingContext();
 
-            await AnimatedBaseLayout.AnimateIn().WithoutChangingContext();
+            await AnimatedBaseLayout.AnimateIn().AndReturnToCallingContext();
 
             ConsiderConstrainingFlexViewHeight();
 
@@ -405,7 +405,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             {
                // Recur
                _mustRetryRecreateTitledFlexHostViewUI.SetFalse();
-               await RecreateTitledFlexHostViewUI().WithoutChangingContext();
+               await RecreateTitledFlexHostViewUI().AndReturnToCallingContext();
             }
 
             if ( !PreserveSpinnerAfterRecreateUI )

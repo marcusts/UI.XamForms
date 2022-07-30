@@ -46,7 +46,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       {
          view.Opacity         = UIConst_PI.NOT_VISIBLE_OPACITY;
          view.BackgroundColor = color;
-         await view.FadeTo(UIConst_PI.VISIBLE_OPACITY, fadeTime ?? FADE_TIME, FADE_IN_EASING).WithoutChangingContext();
+         await view.FadeTo(UIConst_PI.VISIBLE_OPACITY, fadeTime ?? FADE_TIME, FADE_IN_EASING).AndReturnToCallingContext();
       }
    }
 }

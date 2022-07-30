@@ -95,7 +95,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                                      };
 
                _editableEnumPicker.SelectedIndexChanged +=
-                  async (sender, args) => { await CallRevalidate().WithoutChangingContext(); };
+                  async (sender, args) => { await CallRevalidate().AndReturnToCallingContext(); };
             }
 
             return _editableEnumPicker;

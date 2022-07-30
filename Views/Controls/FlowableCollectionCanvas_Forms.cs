@@ -27,15 +27,7 @@
 // *********************************************************************************
 
 #define USE_FADES
-
 #define SET_STATUS_ON_THREAD
-
-// #define SHOW_BACK_COLORS
-/*
- DOING NOTHING FOR ANDROID WIDTH ISSUES
-#define USE_WIDTH_TIMER
-#define ADD_CHILD_ON_MAIN_THREAD
-*/
 
 namespace Com.MarcusTS.UI.XamForms.Views.Controls
 {
@@ -55,10 +47,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
    using Com.MarcusTS.UI.XamForms.Views.Subviews;
    using Xamarin.Essentials;
    using Xamarin.Forms;
-
-#if USE_WIDTH_TIMER
-   using System.Threading;
-#endif
 
    public interface IFlowableCollectionCanvas_Forms :
       INotifyAfterAfterRequestingChildItemFlows,
@@ -123,11 +111,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       private          ICanSortComparer       _sortComparer;
       private          IFlowableChild_Forms[] _sortedFlowableChildren;
 
-#if USE_WIDTH_TIMER
-      private const int                 WIDTH_TIMER_DELAY_MILLISECONDS = 250;
-      private       Timer _lastItemCanvasWidthChangeTimer;
-#endif
-
       public FlowableCollectionCanvas_Forms()
       {
          HorizontalOptions = LayoutOptions.FillAndExpand;
@@ -169,18 +152,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
                _widthPropertyChangedEntered.SetTrue();
 
-#if USE_WIDTH_TIMER
-               _lastItemCanvasWidthChangeTimer =
-                  new Timer(
-                     state =>
-                     {
-#endif
-
                // Corner case; resets all children.  This occurs when we start from an invalid width such as -1, so never get set up properly.
                // This sometimes occurs while inside of set child position statuses.
                if ( IsVisibleToUser && _initialChildPositionStatusesHaveBeenSet.IsFalse() && _setChildPositionStatuses_Entered.IsFalse() )
                {
-                  // await SetChildPositionStatuses( true ).ConfigureAwait(true);
                   SetChildPositionStatuses().FireAndFuhgetAboutIt();
                }
                else
@@ -190,20 +165,6 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
                _lastItemCanvasWidth = ItemsCanvas.Width;
                _widthPropertyChangedEntered.SetFalse();
-
-               //if ( _mustReenterWidthPropertyChanged.IsTrue() )
-               //{
-               //   _mustReenterWidthPropertyChanged.SetFalse();
-               //   HandleWidthChanged( sender, args );
-               //}
-
-#if USE_WIDTH_TIMER
-                        _lastItemCanvasWidthChangeTimer.Dispose();
-                     },
-                     null,
-                     TimeSpan.FromMilliseconds( WIDTH_TIMER_DELAY_MILLISECONDS ),
-                     Timeout.InfiniteTimeSpan );
-#endif
             }
          }
          // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -268,7 +229,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       public async Task AnimateIn()
       {
-         await SetIsVisibleToUser( true, true ).ConfigureAwait(true);
+         await SetIsVisibleToUser( true, true ).AndReturnToCallingContext();
       }
 
       public void CompareParentHeightToChildHeight( double childHeight )
@@ -301,7 +262,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             ChildSpacing = spacing;
 
-            await ConsiderResetSourceViewsAndPositionStatuses().ConfigureAwait(true);
+            await ConsiderResetSourceViewsAndPositionStatuses().AndReturnToCallingContext();
          }
       }
 
@@ -327,7 +288,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             FilterCollection.FilterCollectionChangedTask.AddIfNotAlreadyThere( this,
                HandleFilterCollectionChanged );
 
-            await AskAllChildrenToRefilter().ConfigureAwait(true);
+            await AskAllChildrenToRefilter().AndReturnToCallingContext();
          }
       }
 
@@ -337,7 +298,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             FixedRowHeight = height;
 
-            await ConsiderResetSourceViewsAndPositionStatuses().ConfigureAwait(true);
+            await ConsiderResetSourceViewsAndPositionStatuses().AndReturnToCallingContext();
          }
       }
 
@@ -345,7 +306,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          _setFullHeightBasedOnChildren = setFullHeightBasedOnChildren;
 
-         await ForceResetChildPositionStatuses().ConfigureAwait(true);
+         await ForceResetChildPositionStatuses().AndReturnToCallingContext();
       }
 
       public Task SetIncludeHapticFeedbackOnRowTaps( bool includeHapticFeedbackOnRowTaps )
@@ -361,7 +322,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             RowHeightCalculationMethod = method;
 
-            await ConsiderResetSourceViewsAndPositionStatuses().ConfigureAwait(true);
+            await ConsiderResetSourceViewsAndPositionStatuses().AndReturnToCallingContext();
          }
       }
 
@@ -371,7 +332,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             _rowSelectionRule = rule;
 
-            await ConfirmLegalSelections().ConfigureAwait(true);
+            await ConfirmLegalSelections().AndReturnToCallingContext();
          }
       }
 
@@ -379,14 +340,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          _scrollBottomMargin = scrollBottomMargin;
 
-         await ForceResetChildPositionStatuses().ConfigureAwait(true);
+         await ForceResetChildPositionStatuses().AndReturnToCallingContext();
       }
 
       public async Task SetSortComparer( ICanSortComparer comparer )
       {
          _sortComparer = comparer;
 
-         await SortWithComparer().ConfigureAwait(true);
+         await SortWithComparer().AndReturnToCallingContext();
       }
 
       public async Task SetSourceViews( View[] views )
@@ -434,26 +395,17 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          foreach ( var newView in SourceViews )
          {
-            await AddFlowableChild( newView ).ConsiderBeginInvokeTaskOnMainThread(
-
-#if ADD_CHILD_ON_MAIN_THREAD
-               true
-#else
-
-               // ReSharper disable once RedundantArgumentDefaultValue
-               false
-#endif
-            );
+             await AddFlowableChild(newView).ConsiderBeginInvokeTaskOnMainThread(false);
          }
 
          _sortedFlowableChildren = ItemsCanvas.Children.OfType<IFlowableChild_Forms>().ToArray();
 
          // Sort by the last key(s)
-         await SortWithComparer().ConfigureAwait(true);
+         await SortWithComparer().AndReturnToCallingContext();
 
          // REQUIRES sort to occur first
          // If it is the first row, it might need to be auto-selected.
-         await ConfirmLegalSelections().ConfigureAwait(true);
+         await ConfirmLegalSelections().AndReturnToCallingContext();
 
          _setSourceViews_Entered.SetFalse();
 
@@ -479,7 +431,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             {
                // This class's BindingContext was confirmed on entry to this method.
                await newView.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms( BindingContext )
-                            .ConfigureAwait(true);
+                            .AndReturnToCallingContext();
             }
 
             // Unconditional
@@ -508,12 +460,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
             // NEW 2021-10-21  0137 PST
             await flowableChild.SetContentSafelyAndAwaitAllBranchingTasks( newView )
-                               .ConsiderBeginInvokeTaskOnMainThread().ConfigureAwait(true);
+                               .ConsiderBeginInvokeTaskOnMainThread().AndReturnToCallingContext();
 
             if ( newView.BindingContext.IsNotNullOrDefault() )
             {
                await flowableChild.SetBindingContextSafelyAndAwaitAllBranchingTasks( newView.BindingContext )
-                                  .ConfigureAwait(true);
+                                  .AndReturnToCallingContext();
             }
 
             await OnCanvasChildAddedTask.RunAllTasksUsingDefaults( flowableChild );
@@ -532,7 +484,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       protected async Task AddToRowSelections( ICanBeSelected_PI selectable )
       {
-         await selectable.SetIsSelected( true ).ConfigureAwait(true);
+         await selectable.SetIsSelected( true ).AndReturnToCallingContext();
 
          if ( !SelectedRows.Contains( selectable ) )
          {
@@ -543,7 +495,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       protected virtual async Task ConfirmLegalSelections()
       {
          // This will check for the conditions required to select the initial row.
-         await MakeInitialRowSelection().ConfigureAwait(true);
+         await MakeInitialRowSelection().AndReturnToCallingContext();
       }
 
       protected async Task DeselectAndClearRowSelections( ICanBeSelected_PI exceptedItem )
@@ -552,7 +504,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          {
             foreach ( var row in SelectedRows.Except( new[] { exceptedItem, } ).ToArray() )
             {
-               await row.SetIsSelected( false ).ConfigureAwait(true);
+               await row.SetIsSelected( false ).AndReturnToCallingContext();
             }
 
             SelectedRows.Clear();
@@ -566,23 +518,23 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
               SelectedRows.IsEmpty()
          )
          {
-            await AddToRowSelections( _sortedFlowableChildren[ 0 ] ).ConfigureAwait(true);
+            await AddToRowSelections( _sortedFlowableChildren[ 0 ] ).AndReturnToCallingContext();
          }
       }
 
       protected override async Task OnSetIsVisibleToUser( bool isVisible )
       {
-         await base.OnSetIsVisibleToUser( isVisible ).ConfigureAwait(true);
+         await base.OnSetIsVisibleToUser( isVisible ).AndReturnToCallingContext();
 
          if ( isVisible )
          {
-            await ConsiderResetSourceViewsAndPositionStatuses().ConfigureAwait(true);
+            await ConsiderResetSourceViewsAndPositionStatuses().AndReturnToCallingContext();
          }
       }
 
       protected async Task RemoveFromRowSelections( ICanBeSelected_PI selectable )
       {
-         await selectable.SetIsSelected( false ).ConfigureAwait(true);
+         await selectable.SetIsSelected( false ).AndReturnToCallingContext();
 
          if ( SelectedRows.Contains( selectable ) )
          {
@@ -644,7 +596,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             if ( _initialChildPositionStatusesHaveBeenSet.IsFalse() )
             {
                // Set the predecessor
-               await flowableChild.SetFlowPredecessor( previousChild ).ConfigureAwait(true);
+               await flowableChild.SetFlowPredecessor( previousChild ).AndReturnToCallingContext();
             }
 
             // Even if filtered out, we need to know our next Y, etc.
@@ -652,7 +604,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             //    Force broadcast if we have been *not* been asked to change predecessors.  This is because if managePredecessors is true, we have no reliable successors (yet).
             await flowableChild
                  .RefreshNextBoundsAndAlternationFromPredecessor( _initialChildPositionStatusesHaveBeenSet.IsTrue(),
-                     _initialChildPositionStatusesHaveBeenSet.IsTrue() ).ConfigureAwait(true);
+                     _initialChildPositionStatusesHaveBeenSet.IsTrue() ).AndReturnToCallingContext();
 
             var isFilteredOut =
                FilterCollection.IsNotNullOrDefault()       &&
@@ -666,7 +618,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
             // The child will check to see if this is an actual change or not
             // This *overrides* the next bounds set in the step above
-            await flowableChild.SetNextFilteredOut( isFilteredOut ).ConfigureAwait(true);
+            await flowableChild.SetNextFilteredOut( isFilteredOut ).AndReturnToCallingContext();
 
             var childHeight =
                flowableChild.NextBounds.Y +
@@ -695,15 +647,15 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             {
                if ( AnimateInDelayMilliseconds > 0 )
                {
-                  await Task.Delay( AnimateInDelayMilliseconds ).ConfigureAwait(true);
+                  await Task.Delay( AnimateInDelayMilliseconds ).AndReturnToCallingContext();
                }
 
-               await orderedChild.MakeAllPendingChanges().ConfigureAwait(true);
+               await orderedChild.MakeAllPendingChanges().AndReturnToCallingContext();
 
                // NOTE Would require an animatable child inside of this canvas (not likely)
                if ( CascadeChildAnimations && orderedChild is ICanAnimate_Forms childAsAnimatable )
                {
-                  await childAsAnimatable.AnimateIn().ConfigureAwait(true);
+                  await childAsAnimatable.AnimateIn().AndReturnToCallingContext();
                }
             }
 
@@ -711,7 +663,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          }
 
          // NOTE: This task occures *before* the children complete their flows, since those are threaded in parallel
-         await AfterFlowingToOnScreenPositionsTask.RunAllTasksUsingDefaults().ConfigureAwait(true);
+         await AfterFlowingToOnScreenPositionsTask.RunAllTasksUsingDefaults().AndReturnToCallingContext();
 
          _setChildPositionStatuses_Entered.SetFalse();
 
@@ -742,12 +694,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          if ( _sourceViewsAreDirty.IsTrue() )
          {
-            await ResetExistingSourceViews().ConfigureAwait(true);
+            await ResetExistingSourceViews().AndReturnToCallingContext();
          }
          else
          {
             // Leave the predecessors alone
-            await SetChildPositionStatuses().ConfigureAwait(true);
+            await SetChildPositionStatuses().AndReturnToCallingContext();
          }
       }
 
@@ -772,7 +724,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                   {
                      await ( (View)child )
                           .AddAnimationAndHapticFeedback( _animateRowTaps, _includeHapticFeedbackOnRowTaps )
-                          .ConfigureAwait(true);
+                          .AndReturnToCallingContext();
 
                      // Can't deselect the only selected item (if these rules are set)
                      // Unless the item cannot be selected at all.
@@ -781,36 +733,36 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                         if ( ( child.IsSelected  && RowCannotBeDeselected( child ) ) ||
                              ( !child.IsSelected && RowCannotBeSelected() ) )
                         {
-                           await RemoveFromRowSelections( child ).ConfigureAwait(true);
+                           await RemoveFromRowSelections( child ).AndReturnToCallingContext();
                            return;
                         }
 
-                        await child.SetIsSelected( !child.IsSelected ).ConfigureAwait(true);
+                        await child.SetIsSelected( !child.IsSelected ).AndReturnToCallingContext();
 
                         // Corner case: if only one selection is allowed, we must deselect all other selections.
                         if ( ( _rowSelectionRule ==
                                SelectionRules.SingleSelectionAtLeastOneRequired ) ||
                              ( _rowSelectionRule == SelectionRules.SingleSelectionCanBeNull ) )
                         {
-                           await DeselectAndClearRowSelections( child ).ConfigureAwait(true);
+                           await DeselectAndClearRowSelections( child ).AndReturnToCallingContext();
                         }
 
-                        await AddToRowSelections( child ).ConfigureAwait(true);
+                        await AddToRowSelections( child ).AndReturnToCallingContext();
                      }
                      else
                      {
-                        await RemoveFromRowSelections( child ).ConfigureAwait(true);
+                        await RemoveFromRowSelections( child ).AndReturnToCallingContext();
 
                         // If we cannot select, we allow the item to handle its own on tapped event.
                         if ( _rowSelectionRule == SelectionRules.NoSelection )
 
                            // Send this through to any deriver
                         {
-                           await child.OnItemTapped().ConfigureAwait(true);
+                           await child.OnItemTapped().AndReturnToCallingContext();
                         }
                      }
 
-                     await OnRowTappedTask.RunAllTasksUsingDefaults( child ).ConfigureAwait(true);
+                     await OnRowTappedTask.RunAllTasksUsingDefaults( child ).AndReturnToCallingContext();
                   }
                );
             };
@@ -823,7 +775,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          _initialChildPositionStatusesHaveBeenSet.SetFalse();
 
          // Require predecessors to be reset
-         await SetChildPositionStatuses().ConfigureAwait(true);
+         await SetChildPositionStatuses().AndReturnToCallingContext();
       }
 
       private async Task HandleFilterCollectionChanged( IResponsiveTaskParams paramDict )
@@ -831,10 +783,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          // Params are ignored
          if ( MillisecondsBeforeFilterChanges > 0 )
          {
-            await Task.Delay( MillisecondsBeforeFilterChanges ).ConfigureAwait(true);
+            await Task.Delay( MillisecondsBeforeFilterChanges ).AndReturnToCallingContext();
          }
 
-         await AskAllChildrenToRefilter().ConfigureAwait(true);
+         await AskAllChildrenToRefilter().AndReturnToCallingContext();
       }
 
       private void HandleSourceViewsCollectionChanged( object sender, NotifyCollectionChangedEventArgs e )
@@ -856,7 +808,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       private async Task ResetExistingSourceViews()
       {
-         await SetSourceViews( SourceViews.ToArray() ).ConfigureAwait(true);
+         await SetSourceViews( SourceViews.ToArray() ).AndReturnToCallingContext();
       }
 
       private bool RowCannotBeDeselected( ICanBeSelected_PI item )
@@ -904,7 +856,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          await Task.Delay( POST_SORT_DELAY_MILLISECONDS );
 
          // Unconditionally rearrange the children *fresh* -- ignore their current positions
-         await ForceResetChildPositionStatuses().ConfigureAwait(true);
+         await ForceResetChildPositionStatuses().AndReturnToCallingContext();
       }
    }
 }

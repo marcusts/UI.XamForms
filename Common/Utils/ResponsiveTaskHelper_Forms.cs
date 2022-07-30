@@ -56,7 +56,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
          {
             await contentAsCanSetBindingContextSafely
                  .SetBindingContextSafelyAndAwaitAllBranchingTasks( newContentBindingContext, maxDelay )
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
          }
          else
          {

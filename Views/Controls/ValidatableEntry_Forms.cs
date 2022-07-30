@@ -155,7 +155,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                                                           async
                                                           () =>
                                                           {
-                                                             await Task.Delay( 100 ).WithoutChangingContext();
+                                                             await Task.Delay( 100 ).AndReturnToCallingContext();
 
                                                              MainThread.BeginInvokeOnMainThread( 
                                                                 () =>

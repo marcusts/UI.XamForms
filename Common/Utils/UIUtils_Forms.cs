@@ -299,8 +299,8 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       {
          if ( animate )
          {
-            await view.ScaleTo( UIConst_PI.ANIMATION_BOUNCE_SCALE, UIConst_PI.BUTTON_BOUNCE_MILLISECONDS, Easing.CubicOut ).WithoutChangingContext();
-            await view.ScaleTo( 1,    UIConst_PI.BUTTON_BOUNCE_MILLISECONDS, Easing.CubicIn ).WithoutChangingContext();
+            await view.ScaleTo( UIConst_PI.ANIMATION_BOUNCE_SCALE, UIConst_PI.BUTTON_BOUNCE_MILLISECONDS, Easing.CubicOut ).AndReturnToCallingContext();
+            await view.ScaleTo( 1,    UIConst_PI.BUTTON_BOUNCE_MILLISECONDS, Easing.CubicIn ).AndReturnToCallingContext();
          }
 
          if ( vibrate )
@@ -939,7 +939,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                                                  maxOpacity, easing);
          fadeAnimation.Commit(view, "fadeAnimation", length:fadeMilliseconds, easing:easing);
 #else
-         await view.FadeTo(maxOpacity, fadeMilliseconds, easing ?? Easing.CubicIn).WithoutChangingContext();
+         await view.FadeTo(maxOpacity, fadeMilliseconds, easing ?? Easing.CubicIn).AndReturnToCallingContext();
 #endif
       }
 
@@ -973,7 +973,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                                            NOT_VISIBLE_OPACITY, easing);
          fadeAnimation.Commit(view, "fadeAnimation", length:fadeMilliseconds, easing:easing);
 #else
-         await view.FadeTo(NOT_VISIBLE_OPACITY, fadeMilliseconds, easing ?? Easing.CubicOut).WithoutChangingContext();
+         await view.FadeTo(NOT_VISIBLE_OPACITY, fadeMilliseconds, easing ?? Easing.CubicOut).AndReturnToCallingContext();
 #endif
       }
 

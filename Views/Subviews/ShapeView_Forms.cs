@@ -101,7 +101,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
       public async Task RunPostBindingContextTasks( params object[] taskParams )
       {
          IsPostBindingContextCompleted.SetFalse();
-         await PostBindingContextTasks.RunAllTasksUsingDefaults( taskParams ).WithoutChangingContext();
+         await PostBindingContextTasks.RunAllTasksUsingDefaults( taskParams ).AndReturnToCallingContext();
          IsPostBindingContextCompleted.SetTrue();
       }
 
@@ -109,7 +109,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
       public async Task RunPostContentTasks( params object[] taskParams )
       {
          IsPostContentCompleted.SetFalse();
-         await PostContentTasks.RunAllTasksUsingDefaults( taskParams ).WithoutChangingContext();
+         await PostContentTasks.RunAllTasksUsingDefaults( taskParams ).AndReturnToCallingContext();
          IsPostContentCompleted.SetTrue();
       }
 
@@ -123,7 +123,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             // ReSharper disable once RedundantArgumentDefaultValue
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -137,7 +137,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                base.BindingContext = context;
 
                // Raise the current class's post binding context tasks
-               await RunPostBindingContextTasks( this ).WithoutChangingContext();
+               await RunPostBindingContextTasks( this ).AndReturnToCallingContext();
 
                if (
                   RunSubBindingContextTasksAfterAssignment &&
@@ -146,10 +146,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                )
                {
                   // Raise the *view model's* post binding context tasks
-                  await bindingContextAsRunningPostBindingContextTasks.RunPostBindingContextTasks( this ).WithoutChangingContext();
+                  await bindingContextAsRunningPostBindingContextTasks.RunPostBindingContextTasks( this ).AndReturnToCallingContext();
                }
 
-               await ConsiderSettingContentBindingContext().WithoutChangingContext();
+               await ConsiderSettingContentBindingContext().AndReturnToCallingContext();
             }
          }
       }
@@ -163,7 +163,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             // ReSharper disable once RedundantArgumentDefaultValue
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -174,13 +174,13 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 #endif
 
             {
-               var newView = view ?? await GetDefaultContent().WithoutChangingContext();
+               var newView = view ?? await GetDefaultContent().AndReturnToCallingContext();
 
                //CRITICAL ANDROID CRASH - Cannot access a disposed PancakeView renderer
                base.Content = newView;
 
                // Raise the current class's post content tasks
-               await RunPostContentTasks( this ).WithoutChangingContext();
+               await RunPostContentTasks( this ).AndReturnToCallingContext();
 
                if (
                   RunContentTasksAfterAssignment &&
@@ -189,10 +189,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                )
                {
                   // Raise the *content's* post content tasks
-                  await contentAsRunningPostContentTasks.RunPostContentTasks( this ).WithoutChangingContext();
+                  await contentAsRunningPostContentTasks.RunPostContentTasks( this ).AndReturnToCallingContext();
                }
 
-               await ConsiderSettingContentBindingContext().WithoutChangingContext();
+               await ConsiderSettingContentBindingContext().AndReturnToCallingContext();
             }
          }
       }
@@ -240,7 +240,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          if ( SetContentBindingContextAfterAssignment )
          {
-            await finalNestedContent.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms( BindingContext ).WithoutChangingContext();
+            await finalNestedContent.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms( BindingContext ).AndReturnToCallingContext();
          }
       }
 

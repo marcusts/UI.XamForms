@@ -128,7 +128,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
       public async Task SetFlowableChildSpacing( double childSpacing )
       {
          _childSpacing = childSpacing;
-         await AnimatableLayout.SetChildSpacing( _childSpacing ).WithoutChangingContext();
+         await AnimatableLayout.SetChildSpacing( _childSpacing ).AndReturnToCallingContext();
       }
 
       public async Task SetUseScrollView( bool useScrollView )
@@ -136,14 +136,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( _useScrollView != useScrollView )
          {
             _useScrollView = useScrollView;
-            await RecreateScrollableViewUI().WithoutChangingContext();
+            await RecreateScrollableViewUI().AndReturnToCallingContext();
          }
       }
 
       protected virtual async Task AfterSourceViewsAssigned()
       {
          // This sets "is visible to user" to true
-         await AnimatableLayout.AnimateIn().WithoutChangingContext();
+         await AnimatableLayout.AnimateIn().AndReturnToCallingContext();
       }
 
       protected virtual Task BeforeSourceViewsAssigned( BetterObservableCollection<View> retViews )
@@ -202,12 +202,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
               BindingContext.IsNotAnEqualReferenceTo( AnimatableLayoutAsView.BindingContext ) )
          {
             await AnimatableLayout.SetBindingContextSafelyAndAwaitAllBranchingTasks( BindingContext )
-                                  .WithoutChangingContext();
+                                  .AndReturnToCallingContext();
          }
 
-         await RecreateScrollableViewUI().WithoutChangingContext();
+         await RecreateScrollableViewUI().AndReturnToCallingContext();
 
-         await RequestCreateScrollableViewsAndSetSourceViews().WithoutChangingContext();
+         await RequestCreateScrollableViewsAndSetSourceViews().AndReturnToCallingContext();
       }
 
       protected async Task RecreateScrollableViewUI()
@@ -217,7 +217,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             return;
          }
 
-         _viewToSet = await CreateViewToSet().WithoutChangingContext();
+         _viewToSet = await CreateViewToSet().AndReturnToCallingContext();
 
 #if SHOW_BACK_COLORS
          BackgroundColor = Color.Maroon;
@@ -227,7 +227,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          // TODO Consider moving this
          _viewToSet.Margin = new Thickness( UIConst_Forms.MARGIN_SPACING_MEDIUM_FACTOR );
 
-         await this.SetContentSafelyAndAwaitAllBranchingTasks( _viewToSet ).WithoutChangingContext();
+         await this.SetContentSafelyAndAwaitAllBranchingTasks( _viewToSet ).AndReturnToCallingContext();
       }
 
       protected async Task RequestCreateScrollableViewsAndSetSourceViews()
@@ -242,7 +242,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          SpinnerHost.IsBusyShowing = true;
 
-         ( var fetchedOK, var retViews ) = await CreateScrollableViews().WithoutChangingContext();
+         ( var fetchedOK, var retViews ) = await CreateScrollableViews().AndReturnToCallingContext();
 
          if ( !fetchedOK || retViews.IsNullOrDefault() )
          {
@@ -253,18 +253,18 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          // ELSE
          // Allow changes to the views
-         await BeforeSourceViewsAssigned( retViews ).WithoutChangingContext();
+         await BeforeSourceViewsAssigned( retViews ).AndReturnToCallingContext();
 
-         await AnimatableLayout.SetSourceViews( retViews.ToArray() ).WithoutChangingContext();
+         await AnimatableLayout.SetSourceViews( retViews.ToArray() ).AndReturnToCallingContext();
 
-         await AfterSourceViewsAssigned().WithoutChangingContext();
+         await AfterSourceViewsAssigned().AndReturnToCallingContext();
 
          _requestCreateAnimatableLayoutSourceViewsEntered.SetFalse();
 
          if ( _requestCreateAnimatableLayoutSourceViewsShouldBeReEntered.IsTrue() )
          {
             _requestCreateAnimatableLayoutSourceViewsShouldBeReEntered.SetFalse();
-            await RequestCreateScrollableViewsAndSetSourceViews().WithoutChangingContext();
+            await RequestCreateScrollableViewsAndSetSourceViews().AndReturnToCallingContext();
          }
 
          SpinnerHost.IsBusyShowing = false;

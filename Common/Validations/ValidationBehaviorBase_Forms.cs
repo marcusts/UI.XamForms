@@ -68,7 +68,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                }
                else if ( ValidationConditions.IsAnEmptyList() && !_validationConditionsSetOnce )
                {
-                  await ResetAndRevalidateAllConditions().WithoutChangingContext();
+                  await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
                }
                else
                {
@@ -76,7 +76,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                   var values  = GetValuesFromView();
                   foreach ( var condition in ValidationConditions )
                   {
-                     await condition.RevalidateSingleCondition( values.Item1, values.Item2 ).WithoutChangingContext();
+                     await condition.RevalidateSingleCondition( values.Item1, values.Item2 ).AndReturnToCallingContext();
                      if ( condition.IsValid.IsFalse() )
                      {
                         allTrue = false;
@@ -85,7 +85,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                      }
                   }
 
-                  await SetIsValid( allTrue ).WithoutChangingContext();
+                  await SetIsValid( allTrue ).AndReturnToCallingContext();
                }
             } );
 
@@ -99,7 +99,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
             IsValid.SetFalse();
          }
 
-         await IsValid.SetIsTrueOrFalse( isValid, IsValidChangedTask ).WithoutChangingContext();
+         await IsValid.SetIsTrueOrFalse( isValid, IsValidChangedTask ).AndReturnToCallingContext();
       }
 
       protected virtual Task AfterAttached( VisualElement bindableAsVisualElement )
@@ -174,8 +174,8 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
          if ( ValidationConditions.IsDifferentThan( previousValidationConditions ) )
          {
-            await ValidationConditionsChanged.RunAllTasksUsingDefaults().WithoutChangingContext();
-            await RevalidateAllConditions().WithoutChangingContext();
+            await ValidationConditionsChanged.RunAllTasksUsingDefaults().AndReturnToCallingContext();
+            await RevalidateAllConditions().AndReturnToCallingContext();
          }
       }
    }

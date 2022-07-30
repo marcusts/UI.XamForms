@@ -353,10 +353,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                   async
                   () =>
                   {
-                     await imageLabelButton.AfterButtonStateChanged().WithoutChangingContext();
-                     await imageLabelButton.BroadcastIfSelected().WithoutChangingContext();
+                     await imageLabelButton.AfterButtonStateChanged().AndReturnToCallingContext();
+                     await imageLabelButton.BroadcastIfSelected().AndReturnToCallingContext();
                      imageLabelButton.UpdateCurrentStyleFromButtonState( newVal );
-                     await imageLabelButton.ButtonStateChangedTask.RunAllTasksUsingDefaults( newVal ).WithoutChangingContext();
+                     await imageLabelButton.ButtonStateChangedTask.RunAllTasksUsingDefaults( newVal ).AndReturnToCallingContext();
                   }
                );
             }
@@ -966,16 +966,16 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             {
                // If a command exists, fire it and reset our selected status to false; otherwise, leave the selected state as
                // it is.
-               await this.AddAnimationAndHapticFeedback( AnimateButton, IncludeHapticFeedback ).WithoutChangingContext();
+               await this.AddAnimationAndHapticFeedback( AnimateButton, IncludeHapticFeedback ).AndReturnToCallingContext();
 
-               await Task.Delay( UIConst_PI.AFTER_BUTTON_PRESS_DELAY_MILLISECONDS ).WithoutChangingContext();
+               await Task.Delay( UIConst_PI.AFTER_BUTTON_PRESS_DELAY_MILLISECONDS ).AndReturnToCallingContext();
 
                if ( ButtonCommand.IsNotNullOrDefault() )
                {
                   ButtonCommand.Execute( this );
                }
 
-               await ImageLabelButtonPressedTask.RunAllTasksUsingDefaults().WithoutChangingContext();
+               await ImageLabelButtonPressedTask.RunAllTasksUsingDefaults().AndReturnToCallingContext();
                _tappedListenerEntered = false;
             } );
       }
@@ -1163,7 +1163,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          if ( ( SelectionGroup > 0 ) && IsSelected )
          {
             // Raise a static task to notify others in this selection group that they should be *deselected*
-            await IAmSelectedStaticTask.RunAllTasksUsingDefaults( this ).WithoutChangingContext();
+            await IAmSelectedStaticTask.RunAllTasksUsingDefaults( this ).AndReturnToCallingContext();
          }
       }
 
@@ -1300,7 +1300,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                {
                   IsEnabled = newCanExecute;
                   OnIsEnabledChanged();
-                  await IsEnabledChangedTask.RunAllTasksUsingDefaults( IsEnabled ).WithoutChangingContext();
+                  await IsEnabledChangedTask.RunAllTasksUsingDefaults( IsEnabled ).AndReturnToCallingContext();
                } );
          }
       }

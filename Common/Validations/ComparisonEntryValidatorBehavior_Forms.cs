@@ -79,7 +79,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
             }
          }
 
-         await RevalidateAllConditions().WithoutChangingContext();
+         await RevalidateAllConditions().AndReturnToCallingContext();
       }
 
       protected override IIsValidCondition_PI[] GetValidationConditions()

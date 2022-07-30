@@ -65,7 +65,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          if (!IsConstructing)
          {
-            RecreateAllViewsBindingsAndStyles().WithoutChangingContext();
+            RecreateAllViewsBindingsAndStyles().AndReturnToCallingContext();
          }
       }
 

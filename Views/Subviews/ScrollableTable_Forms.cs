@@ -287,7 +287,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             {
                var rowCell =
                   await CurrentCustomizations.CreateCellViewForAttribute( propInfo.Value, child )
-                                             .WithoutChangingContext();
+                                             .AndReturnToCallingContext();
 
                AddViewToGridColumn( propInfo.Value, rowGrid, rowCell, currentColumn++ );
 
@@ -303,7 +303,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             // Add to a configurable shape view
             var rowFrame = new ShapeView_Forms();
             rowFrame.SetDefaults();
-            await rowFrame.SetBindingContextSafely( child ).WithoutChangingContext();
+            await rowFrame.SetBindingContextSafely( child ).AndReturnToCallingContext();
 
             // Consider adding a line beneath using a column span
             if ( CanAddLines( HasHorizontalGridlines, HorizontalGridlineColor, HorizontalGridlineGirth ) )
@@ -315,9 +315,9 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                rowGrid.AddAndSetRowsAndColumns( horizontalLine, 1, 0, 1, currentColumn );
             }
 
-            await rowFrame.SetContentSafelyAndAwaitAllBranchingTasks( rowGrid ).WithoutChangingContext();
+            await rowFrame.SetContentSafelyAndAwaitAllBranchingTasks( rowGrid ).AndReturnToCallingContext();
 
-            await AfterRowFrameCreated( rowFrame, child, rowCellViews, rowCellAttributes ).WithoutChangingContext();
+            await AfterRowFrameCreated( rowFrame, child, rowCellViews, rowCellAttributes ).AndReturnToCallingContext();
 
             retViews.AddRangeSortedAndWithoutNotification( new View[] { rowFrame, } );
          }
@@ -327,7 +327,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
       protected override async Task<View> CreateViewToSet()
       {
-         var existingView = await base.CreateViewToSet().WithoutChangingContext();
+         var existingView = await base.CreateViewToSet().AndReturnToCallingContext();
 
          if ( _header.IsNullOrDefault() )
          {
@@ -355,7 +355,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             return;
          }
 
-         await base.EndInitialization().WithoutChangingContext();
+         await base.EndInitialization().AndReturnToCallingContext();
       }
 
       protected override async Task HandlePostBindingContextTask( IResponsiveTaskParams paramDict )
@@ -446,7 +446,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          {
             var headerCell =
                await CurrentCustomizations.CreateHeaderViewForAttribute( keyValuePair.Value )
-                                          .WithoutChangingContext();
+                                          .AndReturnToCallingContext();
 
             AddViewToGridColumn( keyValuePair.Value, headerGrid, headerCell, currentColumn++ );
 
@@ -465,7 +465,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                      async
                      () =>
                      {
-                        await SortAnimatableLayout().ConsiderBeginInvokeTaskOnMainThread( true ).WithoutChangingContext();
+                        await SortAnimatableLayout().ConsiderBeginInvokeTaskOnMainThread( true ).AndReturnToCallingContext();
                      } );
 
                var canSort = new CanSort();
@@ -522,7 +522,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                   // ELSE the user has tapped a new header; re-use the existing descending setting
 
                   await SetAnimatableLayoutSortComparer( keyValuePair.Key, activeCanSortTapped.CanSortRec )
-                    .WithoutChangingContext();
+                    .AndReturnToCallingContext();
                }
                finally
                {
@@ -592,14 +592,14 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
       private async Task HandleRawDataChangedTask( IResponsiveTaskParams paramdict )
       {
-         await RequestCreateScrollableViewsAndSetSourceViews().WithoutChangingContext();
+         await RequestCreateScrollableViewsAndSetSourceViews().AndReturnToCallingContext();
       }
 
       private async Task RequestCreateAnimatableLayoutSourceViewsIfDataIsReady()
       {
          if ( DataIsReady )
          {
-            await RequestCreateScrollableViewsAndSetSourceViews().WithoutChangingContext();
+            await RequestCreateScrollableViewsAndSetSourceViews().AndReturnToCallingContext();
          }
       }
 
@@ -639,7 +639,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
          var comparer = new CanSortComparer( sortedKeyValuePairList.ToArray() );
 
-         await AnimatableLayout.SetSortComparer( comparer ).WithoutChangingContext();
+         await AnimatableLayout.SetSortComparer( comparer ).AndReturnToCallingContext();
       }
 
       private interface ICanSortWithTapped

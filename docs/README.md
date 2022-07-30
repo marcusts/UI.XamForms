@@ -38,7 +38,7 @@ protected async Task ChangeContentView<InterfaceT, ClassT>(object viewModel)
 {
     { code omitted }
 
-    await ChangeTheContent().WithoutChangingContext();
+    await ChangeTheContent().AndReturnToCallingContext();
 
     // PRIVATE METHODS
     async Task ChangeTheContent()
@@ -58,32 +58,32 @@ The **Modern App Demo** consumes this in the **Master View Presenter**:
          if (newModule is IDashboardViewModel)
          {
             await ChangeContentView<IDashboardTitledFlexViewHost, 
-            DashboardTitledFlexViewHost>(newModule).WithoutChangingContext();
+            DashboardTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
          else if (newModule is ISettingsViewModel)
          {
             await ChangeContentView<ISettingsTitledFlexViewHost,
-            SettingsTitledFlexViewHost>(newModule).WithoutChangingContext();
+            SettingsTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
          else if (newModule is IAccountsViewModel)
          {
             await ChangeContentView<IAccountsTitledFlexViewHost, 
-            AccountsTitledFlexViewHost>(newModule).WithoutChangingContext();
+            AccountsTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
          else if (newModule is ILogInViewModel)
          {
             await ChangeContentView<ILogInTitledFlexViewHost, 
-            LogInTitledFlexViewHost>(newModule).WithoutChangingContext();
+            LogInTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
          else if (newModule is ICreateAccountViewModel)
          {
             await ChangeContentView<ICreateAccountTitledFlexViewHost, 
-            CreateAccountTitledFlexViewHost>(newModule).WithoutChangingContext();
+            CreateAccountTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
          else if (newModule is ICreationSuccessViewModel)
          {
             await ChangeContentView<ICreationSuccessTitledFlexViewHost, 
-            CreationSuccessTitledFlexViewHost>(newModule).WithoutChangingContext();
+            CreationSuccessTitledFlexViewHost>(newModule).AndReturnToCallingContext();
          }
       }
 ```

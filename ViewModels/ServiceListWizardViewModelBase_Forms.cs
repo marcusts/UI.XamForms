@@ -75,7 +75,7 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
                                 async () =>
                                 {
                                    // Regardless of the result, run the notification(s)
-                                   await RawDataChangedTask.RunAllTasksUsingDefaults( ServiceData ).WithoutChangingContext();
+                                   await RawDataChangedTask.RunAllTasksUsingDefaults( ServiceData ).AndReturnToCallingContext();
                                 } );
                           } );
          }

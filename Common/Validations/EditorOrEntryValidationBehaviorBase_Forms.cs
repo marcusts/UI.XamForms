@@ -106,7 +106,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_excludedChars != excludedChars)
          {
             _excludedChars = excludedChars;
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -115,7 +115,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_maxLength != maxLength)
          {
             _maxLength = maxLength;
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -131,7 +131,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                _maxLength = ViewModelCustomAttribute_Static_PI.UNSET_INT;
             }
 
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -140,7 +140,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_originalText != originalText)
          {
             _originalText = originalText;
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -149,7 +149,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_textMustChange != textMustChange)
          {
             _textMustChange = textMustChange;
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -275,7 +275,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          var filteredText = IllegalCharFilter(this, preparedNewText, preparedOldText, out var isOutsideOfRange);
 
          // Add masking after validation
-         preparedNewText = await ConsiderMasking(filteredText).WithoutChangingContext();
+         preparedNewText = await ConsiderMasking(filteredText).AndReturnToCallingContext();
 
          if (CurrentText.IsDifferentThan(preparedNewText))
          {
@@ -284,11 +284,11 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
             _ignoreTextChanged = false;
          }
 
-         await AfterTextAssignment().WithoutChangingContext();
+         await AfterTextAssignment().AndReturnToCallingContext();
 
-         await Task.Delay(100).WithoutChangingContext();
+         await Task.Delay(100).AndReturnToCallingContext();
 
-         await RevalidateAllConditions().WithoutChangingContext();
+         await RevalidateAllConditions().AndReturnToCallingContext();
 
          LastValidatedText = preparedNewText;
       }

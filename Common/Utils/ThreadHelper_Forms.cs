@@ -75,7 +75,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
       {
          if ( !forceBeginInvoke && MainThread.IsMainThread )
          {
-            await task.WithoutChangingContext();
+            await task.AndReturnToCallingContext();
          }
          else
          {

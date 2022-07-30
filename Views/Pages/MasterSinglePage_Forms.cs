@@ -117,7 +117,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
                {
                   Debug.WriteLine( "Master Single page main stage grid height has changed ->" +
                                    _mainStageGrid.Height.ToRoundedInt()                       + "<-" );
-                  await SetSpinnerOverlayHeight( _mainStageGrid.Height ).WithoutChangingContext();
+                  await SetSpinnerOverlayHeight( _mainStageGrid.Height ).AndReturnToCallingContext();
                   _lastMainStageHeight = _mainStageGrid.Height;
                }
             };
@@ -327,7 +327,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          if ( SpinnerOverlayHeight.IsDifferentThan( newHeight ) )
          {
             SpinnerOverlayHeight = newHeight;
-            await SpinnerOverlayHeightChanged.RunAllTasksUsingDefaults( SpinnerOverlayHeight ).WithoutChangingContext();
+            await SpinnerOverlayHeightChanged.RunAllTasksUsingDefaults( SpinnerOverlayHeight ).AndReturnToCallingContext();
          }
       }
 

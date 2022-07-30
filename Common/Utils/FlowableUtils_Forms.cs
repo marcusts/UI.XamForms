@@ -136,7 +136,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                // Don't bother with the fade
                await view.TranslateTo( moveX, moveY, translateBoundsMilliseconds,
                              translateBoundsEasing ?? Easing.Linear )
-                         .ConfigureAwait(true);
+                         .AndReturnToCallingContext();
             }
             else
             {
@@ -146,7 +146,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
                                           translateBoundsEasing ?? Easing.Linear ),
                                        view.FadeTo( nextOpacity, fadeInMilliseconds, fadeEasing ?? Easing.Linear ),
                                     };
-               await Task.WhenAll( translateTasks ).ConfigureAwait(true);
+               await Task.WhenAll( translateTasks ).AndReturnToCallingContext();
             }
          }
       }

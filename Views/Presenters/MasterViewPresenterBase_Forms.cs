@@ -105,7 +105,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Presenters
             // ReSharper disable once RedundantArgumentDefaultValue
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -127,7 +127,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Presenters
                  newViewAsContentOwner.Content.IsNullOrDefault() )
             {
                // Sets the default content
-               await newViewAsContentOwner.SetContentSafelyAndAwaitAllBranchingTasks().WithoutChangingContext();
+               await newViewAsContentOwner.SetContentSafelyAndAwaitAllBranchingTasks().AndReturnToCallingContext();
             }
 
             // Transition from one to the other
@@ -165,7 +165,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Presenters
             }
 
             await newViewAsView.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms( viewModel )
-                               .WithoutChangingContext();
+                               .AndReturnToCallingContext();
 
             // turn the spinner off (Unless the view requests control)
             if ( !( newViewAsView is IOverrideProgressSpinner ) )
@@ -221,7 +221,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Presenters
             _spinnerHost.IsBusyShowing = false;
          }
 
-         await RespondToViewModelChange( newModule ).WithoutChangingContext();
+         await RespondToViewModelChange( newModule ).AndReturnToCallingContext();
 
          _lastModule = newModule;
       }

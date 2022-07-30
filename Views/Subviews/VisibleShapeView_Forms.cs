@@ -52,13 +52,13 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
 
       public async Task SetIsVisibleToUser(bool isVisible, bool forceSet = false)
       {
-         await BeforeUserVisibilityChangedTask.RunAllTasksUsingDefaults(IsVisibleToUser).WithoutChangingContext();
+         await BeforeUserVisibilityChangedTask.RunAllTasksUsingDefaults(IsVisibleToUser).AndReturnToCallingContext();
 
          IsVisibleToUser = isVisible || forceSet;
 
-         await OnSetIsVisibleToUser(isVisible).WithoutChangingContext();
+         await OnSetIsVisibleToUser(isVisible).AndReturnToCallingContext();
 
-         await AfterUserVisibilityChangedTask.RunAllTasksUsingDefaults(IsVisibleToUser).WithoutChangingContext();
+         await AfterUserVisibilityChangedTask.RunAllTasksUsingDefaults(IsVisibleToUser).AndReturnToCallingContext();
       }
 
       protected virtual Task OnSetIsVisibleToUser(bool isVisible)

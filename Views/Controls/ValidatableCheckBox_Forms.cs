@@ -93,8 +93,8 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       private async Task HandleIsCheckedChanged(IResponsiveTaskParams paramDict)
       {
          
-         await CallRevalidate().WithoutChangingContext();
-         await ResetPlaceholderPosition().WithoutChangingContext();
+         await CallRevalidate().AndReturnToCallingContext();
+         await ResetPlaceholderPosition().AndReturnToCallingContext();
       }
    }
 }

@@ -54,10 +54,10 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
       public WizardViewModel_Forms()
       {
          // ReSharper disable once AsyncVoidLambda
-         NextCommand = new Command( async () => await RunFinalValidation().WithoutChangingContext(),
+         NextCommand = new Command( async () => await RunFinalValidation().AndReturnToCallingContext(),
             () => ValidationHelper.PageIsValid );
          // ReSharper disable once AsyncVoidLambda
-         CancelCommand = new Command( async () => await SetOutcome( Outcomes.Cancel ).WithoutChangingContext() );
+         CancelCommand = new Command( async () => await SetOutcome( Outcomes.Cancel ).AndReturnToCallingContext() );
 
          ValidationHelper.PageIsValidChangedTask.AddIfNotAlreadyThere( this, HandlePageIsValidChangedTask );
 
@@ -80,7 +80,7 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
       {
          Outcome = outcome;
 
-         await OnOutcomeChanged.Invoke( this, NextState, CancelState ).WithoutChangingContext();
+         await OnOutcomeChanged.Invoke( this, NextState, CancelState ).AndReturnToCallingContext();
       }
 
       protected Task VerifyCommandCanExecute()
@@ -92,18 +92,18 @@ namespace Com.MarcusTS.UI.XamForms.ViewModels
 
       private async Task HandlePageIsValidChangedTask( IResponsiveTaskParams paramDict )
       {
-         await VerifyCommandCanExecute().WithoutChangingContext();
+         await VerifyCommandCanExecute().AndReturnToCallingContext();
       }
 
       private async Task RunFinalValidation()
       {
          if ( FinalValidation.IsNullOrDefault() )
          {
-            await OnOutcomeChanged.Invoke( this, NextState, CancelState ).WithoutChangingContext();
+            await OnOutcomeChanged.Invoke( this, NextState, CancelState ).AndReturnToCallingContext();
          }
          else
          {
-            await FinalValidation.Invoke( this ).WithoutChangingContext();
+            await FinalValidation.Invoke( this ).AndReturnToCallingContext();
          }
       }
    }

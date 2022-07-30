@@ -91,7 +91,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_charsToRightOfDecimal != charsToRightOfDecimal)
          {
             _charsToRightOfDecimal = charsToRightOfDecimal;
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -101,7 +101,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          {
             _maxDecimalNumber = _maxDecimalNumber.IsLessThan(MaxDecimalNumber) ? MaxDecimalNumber : maxNum;
 
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -111,7 +111,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          {
             _minDecimalNumber = _minDecimalNumber.IsGreaterThan(MinDecimalNumber) ? MinDecimalNumber : minNum;
 
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -121,7 +121,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          {
             _numericType = numType;
 
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 

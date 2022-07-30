@@ -538,7 +538,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       {
          if ( Validator.IsNotNullOrDefault() )
          {
-            await Validator.RevalidateAllConditions().WithoutChangingContext();
+            await Validator.RevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -564,7 +564,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
       public async Task StopConstructionAndRefresh()
       {
          IsConstructing = false;
-         await RecreateAllViewsBindingsAndStyles().WithoutChangingContext();
+         await RecreateAllViewsBindingsAndStyles().AndReturnToCallingContext();
       }
 
       public static BindableProperty CreateValidatableViewBindableProperty<PropertyTypeT>
@@ -617,7 +617,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       protected async void ConsiderLoweringPlaceholder(object sender, FocusEventArgs e)
       {
-         await ResetPlaceholderPosition().WithoutChangingContext();
+         await ResetPlaceholderPosition().AndReturnToCallingContext();
       }
 
       protected void CreateBindings()
@@ -641,7 +641,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          BorderView.HeightRequest = BorderViewHeight;
          BorderView.CornerRadius  = BorderViewHeight * BorderViewCornerRadiusFactor;
 
-         await BorderView.SetContentSafelyAndAwaitAllBranchingTasks( EditableViewContainer ).WithoutChangingContext();
+         await BorderView.SetContentSafelyAndAwaitAllBranchingTasks( EditableViewContainer ).AndReturnToCallingContext();
 
          BorderView.Margin = new Thickness( 0, GridSinglePadding, 0, 0 );
 
@@ -656,7 +656,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                if ( BorderView.Bounds.AreValidAndHaveChanged( args.PropertyName, _lastBorderViewBounds ) )
                {
                   _lastBorderViewBounds = BorderView.Bounds;
-                  await ResetPlaceholderPosition().WithoutChangingContext();
+                  await ResetPlaceholderPosition().AndReturnToCallingContext();
                }
             };
 
@@ -748,7 +748,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
          }
 
          // NOTE: Does not succeed most of the time; not a b-u-g
-         await AttemptInitialValidation().WithoutChangingContext();
+         await AttemptInitialValidation().AndReturnToCallingContext();
 
 #if !SUPPRESS_PROP_CHANGED
          if ( EditableViewContainer.IsNotNullOrDefault() )
@@ -797,7 +797,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          try
          {
-            await CreateViews().WithoutChangingContext();
+            await CreateViews().AndReturnToCallingContext();
             CreateBindings();
             ReapplyStyles();
 
@@ -814,7 +814,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
       protected async void ReportGlobalFocusAndRaisePlaceholder(object sender, FocusEventArgs e)
       {
-         await ResetPlaceholderPosition().WithoutChangingContext();
+         await ResetPlaceholderPosition().AndReturnToCallingContext();
       }
 
       /// <summary>Resets the placeholder position.</summary>
@@ -843,7 +843,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
          _canvas.RaiseChild( _placeholderGrid );
 
-         await _placeholderGrid.TranslateTo( targetX, targetY ).WithoutChangingContext();
+         await _placeholderGrid.TranslateTo( targetX, targetY ).AndReturnToCallingContext();
 
          if ( !_placeholderLabelHasBeenShown )
          {
@@ -886,7 +886,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
 
             Validator.IsValidChangedTask.AddIfNotAlreadyThere( this, HandleValidatorIsValidChangedTask );
 
-            await CallRevalidate().WithoutChangingContext();
+            await CallRevalidate().AndReturnToCallingContext();
          }
       }
 
@@ -1146,7 +1146,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
             Validator.ValidationConditionsChanged.AddIfNotAlreadyThere( this, HandleValidationConditionsChanged );
             Validator.IsValidChangedTask.AddIfNotAlreadyThere( this, HandleValidatorIsValidChangedTask );
 
-            await AttemptInitialValidation().WithoutChangingContext();
+            await AttemptInitialValidation().AndReturnToCallingContext();
          }
 
          _lastValidator = Validator;

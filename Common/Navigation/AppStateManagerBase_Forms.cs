@@ -82,7 +82,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
             () =>
             {
                var viewModel = await PrepareForViewModelStateChange<InterfaceT, ClassT>( nextState, false )
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
 
                // Redundant assignments because the view model is stored in the DI Container. ... but harmless
                viewModel.NextState        = nextState;
@@ -91,7 +91,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
                viewModel.OnOutcomeChanged = HandleOnOutcomeChanged;
 
                // Fires the binding context changed for the presenter
-               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).WithoutChangingContext();
+               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).AndReturnToCallingContext();
             } );
 
          return Task.CompletedTask;
@@ -108,7 +108,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
             () =>
             {
                var viewModel = await PrepareForViewModelStateChange<InterfaceT, ClassT>( newState, true )
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
 
                // Don't need to worry about the bool return condition in this case. The toolbar will ignore this change except
                // to set the physical toolbar item as selected.
@@ -117,15 +117,15 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
 
                // WARNING Do not use main thread -- crashes IOS
                // Forcing app state; can't get the spinner turned off without this
-               await GoToAppState( CurrentState ).WithoutChangingContext();
+               await GoToAppState( CurrentState ).AndReturnToCallingContext();
 
                if ( CurrentStateChangedTask.IsNotNullOrDefault() )
                {
-                  await CurrentStateChangedTask.RunAllTasksUsingDefaults( CurrentState ).WithoutChangingContext();
+                  await CurrentStateChangedTask.RunAllTasksUsingDefaults( CurrentState ).AndReturnToCallingContext();
                }
 
                // Fires the binding context changed for the presenter
-               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).WithoutChangingContext();
+               await SetCurrentViewModelTask.RunAllTasksUsingDefaults( viewModel ).AndReturnToCallingContext();
             } );
 
          return Task.CompletedTask;
@@ -172,7 +172,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
                // Force the state; the spinner can gets stuck if the app state does not change.
                await GoToAppState( viewModel.Outcome == Outcomes.Next
                   ? nextState
-                  : cancelState ).WithoutChangingContext();
+                  : cancelState ).AndReturnToCallingContext();
             } );
 
          return Task.CompletedTask;
@@ -185,15 +185,15 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
          if ( IsToolbarVisible != isToolbarVisible )
          {
             IsToolbarVisible = isToolbarVisible;
-            await IsToolbarVisibleChangedTask.RunAllTasksUsingDefaults( IsToolbarVisible ).WithoutChangingContext();
+            await IsToolbarVisibleChangedTask.RunAllTasksUsingDefaults( IsToolbarVisible ).AndReturnToCallingContext();
          }
 
          // Turn on the progress spinner
          _spinnerHost.IsBusyShowing = true;
 
          var viewModel = DIContainer.RegisterAndResolveAsInterface<ClassT, InterfaceT>();
-         await SetUpViewModel( viewModel, newState ).WithoutChangingContext();
-         await ProcessViewModelBeforeSettingAsCurrent( viewModel ).WithoutChangingContext();
+         await SetUpViewModel( viewModel, newState ).AndReturnToCallingContext();
+         await ProcessViewModelBeforeSettingAsCurrent( viewModel ).AndReturnToCallingContext();
 
          return viewModel;
       }

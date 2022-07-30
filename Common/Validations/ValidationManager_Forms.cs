@@ -132,17 +132,17 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          {
             case ValidationUtils_PI.STATE_INPUT_TYPE:
                return await SetUpValidatablePicker(ValidationUtils_PI.STATIC_STATES, nextTabIndex)
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
 
             case ValidationUtils_PI.MONTH_INPUT_TYPE:
             {
                return await SetUpValidatablePicker(ValidationUtils_PI.STATIC_MONTHS, nextTabIndex)
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
             }
 
             case ValidationUtils_PI.EXPIRATION_YEAR_INPUT_TYPE:
                return await SetUpValidatablePicker(ValidationUtils_PI.STATIC_EXPIRATION_YEARS, nextTabIndex)
-                 .WithoutChangingContext();
+                 .AndReturnToCallingContext();
 
             case ValidationUtils_PI.DATE_TIME_INPUT_TYPE:
             case ValidationUtils_PI.NULLABLE_DATE_TIME_INPUT_TYPE:
@@ -157,7 +157,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                dateTimePicker.CopyCommmonPropertiesFromAttribute_Forms(attribute);
                retValidator = ValidatorFromView(dateTimePicker);
                SetUpValidator(retValidator as IValidationBehaviorBase_Forms);
-               await dateTimePicker.StopConstructionAndRefresh().WithoutChangingContext();
+               await dateTimePicker.StopConstructionAndRefresh().AndReturnToCallingContext();
 
                nextTabIndex =
                   dateTimePicker.EditableDatePicker.AssignInternalDateTimeProperties(itemHeight,
@@ -176,7 +176,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
                checkBoxPicker.CopyCommmonPropertiesFromAttribute_Forms(attribute);
                retValidator                = ValidatorFromView(checkBoxPicker);
-               await checkBoxPicker.StopConstructionAndRefresh().WithoutChangingContext();
+               await checkBoxPicker.StopConstructionAndRefresh().AndReturnToCallingContext();
                
                nextTabIndex = 
                   checkBoxPicker.EditableCheckBox.AssignInternalViewProperties(itemHeight, nextTabIndex);
@@ -224,7 +224,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                
                ((View) entry).WidthRequest = itemWidth;
 
-               await entry.StopConstructionAndRefresh().WithoutChangingContext();
+               await entry.StopConstructionAndRefresh().AndReturnToCallingContext();
 
                nextTabIndex =
                   entry.EditableEntry.AssignInternalEntryProperties(itemHeight, fontSize, nextTabIndex);
@@ -254,7 +254,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
             SetUpValidator(retValidator as IValidationBehaviorBase_Forms);
 
-            await picker.StopConstructionAndRefresh().WithoutChangingContext();
+            await picker.StopConstructionAndRefresh().AndReturnToCallingContext();
 
             nextTabIdx =
                picker.EditablePicker.AssignInternalPickerProperties(itemHeight, fontSize, nextTabIdx);
@@ -267,7 +267,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
          async Task HandleValidatorIsValidChangedTask(IResponsiveTaskParams paramDict)
          {
-            await viewModel.ValidationHelper.RevalidateBehaviors(true).WithoutChangingContext();
+            await viewModel.ValidationHelper.RevalidateBehaviors(true).AndReturnToCallingContext();
          }
 
          void SetUpValidator<T>(T validator)

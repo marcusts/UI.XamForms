@@ -112,8 +112,8 @@ namespace Com.MarcusTS.UI.XamForms.Views.Controls
                   async
                      (sender, args) =>
                   {
-                     await CallRevalidate().WithoutChangingContext();
-                     await ResetPlaceholderPosition().WithoutChangingContext();
+                     await CallRevalidate().AndReturnToCallingContext();
+                     await ResetPlaceholderPosition().AndReturnToCallingContext();
                   };
             }
 

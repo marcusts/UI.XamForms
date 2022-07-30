@@ -99,7 +99,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( _defaultEditCornerRadiusFactor.IsDifferentThan( radius ) )
          {
             _defaultEditCornerRadiusFactor = radius;
-            await RecreateScrollableViewUI().WithoutChangingContext();
+            await RecreateScrollableViewUI().AndReturnToCallingContext();
          }
       }
 
@@ -108,7 +108,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( _fontSize.IsDifferentThan( fontSize ) )
          {
             _fontSize = fontSize;
-            await RecreateScrollableViewUI().WithoutChangingContext();
+            await RecreateScrollableViewUI().AndReturnToCallingContext();
          }
       }
 
@@ -117,7 +117,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( _itemHeight.IsDifferentThan( itemHeight ) )
          {
             _itemHeight = itemHeight;
-            await RecreateScrollableViewUI().WithoutChangingContext();
+            await RecreateScrollableViewUI().AndReturnToCallingContext();
          }
       }
 
@@ -126,7 +126,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( _itemWidth.IsDifferentThan( itemWidth ) )
          {
             _itemWidth = itemWidth;
-            await RecreateScrollableViewUI().WithoutChangingContext();
+            await RecreateScrollableViewUI().AndReturnToCallingContext();
          }
       }
 
@@ -142,7 +142,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                _itemWidth,
                _fontSize,
                retTabIndex
-            ).WithoutChangingContext();
+            ).AndReturnToCallingContext();
 
          return ( validatableViewForms, canBeValidPi, tabIndex );
       }
@@ -154,7 +154,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( ViewModelAsValidator.IsNotNullOrDefault() && _allBehaviors.IsNotAnEmptyList() )
          {
             await ViewModelAsValidator.ValidationHelper.RemoveBehaviorsWithoutNotification( _allBehaviors.ToArray() )
-                                      .WithoutChangingContext();
+                                      .AndReturnToCallingContext();
          }
 
          _allBehaviors.Clear();
@@ -168,7 +168,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             foreach ( var keyValuePair in _propInfoDict.OrderBy( kvp => kvp.Value.DisplayOrder ) )
             {
                ( var validatableViewForms, var viewValidator, var lastTabIndex ) =
-                  await CreateEditableEntry( keyValuePair.Value, nextTabIndex ).WithoutChangingContext();
+                  await CreateEditableEntry( keyValuePair.Value, nextTabIndex ).AndReturnToCallingContext();
                nextTabIndex = lastTabIndex;
 
                var view = validatableViewForms as View;
@@ -190,7 +190,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                }
 
                await validatableViewForms.BorderView.SetCornerRadiusFactor( _defaultEditCornerRadiusFactor )
-                                         .WithoutChangingContext();
+                                         .AndReturnToCallingContext();
 
                // ReSharper disable once PossibleNullReferenceException
                view.BindingContext = BindingContext;
@@ -225,7 +225,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          if ( ViewModelAsValidator.IsNotNullOrDefault() && _allBehaviors.IsNotAnEmptyList() )
          {
             await ViewModelAsValidator.ValidationHelper.AddBehaviors( _allBehaviors.ToArray() )
-                                      .WithoutChangingContext();
+                                      .AndReturnToCallingContext();
          }
 
          return ( true, retViews );

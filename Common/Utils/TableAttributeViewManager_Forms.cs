@@ -94,7 +94,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Utils
          switch ( attribute.DisplayKind )
          {
             case COMPLETED_TOGGLE:
-               retView = await CreateCellCompletedToggle( attribute, bindingContext ).WithoutChangingContext();
+               retView = await CreateCellCompletedToggle( attribute, bindingContext ).AndReturnToCallingContext();
                break;
 
             case PLAIN_ENGLISH_DATE:

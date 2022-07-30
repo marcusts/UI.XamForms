@@ -87,8 +87,8 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          if (_doNotForceMaskInitially != doNotForceMaskInitially)
          {
             _doNotForceMaskInitially = doNotForceMaskInitially;
-            await ConsiderDoNotForceMaskInitially().WithoutChangingContext();
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ConsiderDoNotForceMaskInitially().AndReturnToCallingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -112,7 +112,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
                }
             }
 
-            await ResetAndRevalidateAllConditions().WithoutChangingContext();
+            await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
          }
       }
 
@@ -122,7 +122,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
          {
             {
                _stringFormat = stringFormat;
-               await ResetAndRevalidateAllConditions().WithoutChangingContext();
+               await ResetAndRevalidateAllConditions().AndReturnToCallingContext();
             }
          }
       }
@@ -134,26 +134,26 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
 
       protected override async Task AfterAttached(VisualElement bindableAsVisualElement)
       {
-         await base.AfterAttached(bindableAsVisualElement).WithoutChangingContext();
+         await base.AfterAttached(bindableAsVisualElement).AndReturnToCallingContext();
 
          if (bindableAsVisualElement is Entry bindableAsEntry)
          {
             bindableAsEntry.TextChanged += OnTextChanged;
          }
 
-         await ConsiderDoNotForceMaskInitially().WithoutChangingContext();
+         await ConsiderDoNotForceMaskInitially().AndReturnToCallingContext();
       }
 
       protected override async Task AfterTextAssignment()
       {
-         await base.AfterTextAssignment().WithoutChangingContext();
+         await base.AfterTextAssignment().AndReturnToCallingContext();
 
          SetUnmaskedText();
       }
 
       protected override async Task AfterUnattached(VisualElement bindableAsVisualElement)
       {
-         await base.AfterAttached(bindableAsVisualElement).WithoutChangingContext();
+         await base.AfterAttached(bindableAsVisualElement).AndReturnToCallingContext();
 
          if (bindableAsVisualElement is Entry bindableAsEntry)
          {
@@ -179,7 +179,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Validations
       {
          if (DoNotForceMaskInitially.IsFalse())
          {
-            await ValidateText(CurrentText, CurrentText).WithoutChangingContext();
+            await ValidateText(CurrentText, CurrentText).AndReturnToCallingContext();
          }
 
          // Might be redundant in some cases but must occur.

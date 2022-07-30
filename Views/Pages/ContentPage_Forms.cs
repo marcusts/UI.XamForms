@@ -87,7 +87,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
       {
          IsPostBindingContextCompleted.SetFalse();
 
-         await PostBindingContextTasks.RunAllTasksUsingDefaults(taskParams).WithoutChangingContext();
+         await PostBindingContextTasks.RunAllTasksUsingDefaults(taskParams).AndReturnToCallingContext();
 
          IsPostBindingContextCompleted.SetTrue();
       }
@@ -97,7 +97,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
       {
          IsPostContentCompleted.SetFalse();
          
-         await PostContentTasks.RunAllTasksUsingDefaults(taskParams).WithoutChangingContext();
+         await PostContentTasks.RunAllTasksUsingDefaults(taskParams).AndReturnToCallingContext();
 
          IsPostContentCompleted.SetTrue();
       }
@@ -111,7 +111,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
 #else
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -127,7 +127,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
                base.BindingContext = context;
 
                // Raise the current class's post binding context tasks
-               await RunPostBindingContextTasks(this).WithoutChangingContext();
+               await RunPostBindingContextTasks(this).AndReturnToCallingContext();
 
                if (
                   RunSubBindingContextTasksAfterAssignment &&
@@ -136,10 +136,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
                )
                {
                   // Raise the *view model's* post binding context tasks
-                  await bindingContextAsRunningPostBindingContextTasks.RunPostBindingContextTasks(this).WithoutChangingContext();
+                  await bindingContextAsRunningPostBindingContextTasks.RunPostBindingContextTasks(this).AndReturnToCallingContext();
                }
 
-               await ConsiderSettingContentBindingContext().WithoutChangingContext();
+               await ConsiderSettingContentBindingContext().AndReturnToCallingContext();
             }
          }
       }
@@ -154,7 +154,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          false
 #endif
 
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
 
 
          // PRIVATE METHODS
@@ -166,12 +166,12 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
 #endif
 
             {
-               var newView = view ?? await GetDefaultContent().WithoutChangingContext();
+               var newView = view ?? await GetDefaultContent().AndReturnToCallingContext();
 
                base.Content = newView;
 
                // Raise the current class's post content tasks
-               await RunPostContentTasks(this).WithoutChangingContext();
+               await RunPostContentTasks(this).AndReturnToCallingContext();
 
                if (
                   RunContentTasksAfterAssignment &&
@@ -180,10 +180,10 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
                )
                {
                   // Raise the *content's* post content tasks
-                  await contentAsRunningPostContentTasks.RunPostContentTasks(this).WithoutChangingContext();
+                  await contentAsRunningPostContentTasks.RunPostContentTasks(this).AndReturnToCallingContext();
                }
 
-               await ConsiderSettingContentBindingContext().WithoutChangingContext();
+               await ConsiderSettingContentBindingContext().AndReturnToCallingContext();
             }
          }
       }
@@ -210,7 +210,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Pages
          if (SetContentBindingContextAfterAssignment)
          {
             await finalNestedContent.SetBindingContextSafelyAndAwaitAllBranchingTasks_Forms(BindingContext)
-                                    .WithoutChangingContext();
+                                    .AndReturnToCallingContext();
          }
       }
    }

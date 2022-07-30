@@ -89,7 +89,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.App
                                                   .FireAndFuhgetAboutIt();
          }
 
-         viewModel.GoToStartUpState().WithoutChangingContext();
+         viewModel.GoToStartUpState().AndReturnToCallingContext();
       }
 
       protected abstract IMasterViewPresenterBase_Forms GetMasterPresenter( ICanShowProgressSpinner_Forms spinnerHost );

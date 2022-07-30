@@ -156,7 +156,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
             // ReSharper disable once RedundantArgumentDefaultValue
             false
 #endif
-         ).WithoutChangingContext();
+         ).AndReturnToCallingContext();
       }
 
       /// <summary>
@@ -167,7 +167,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
       /// <returns>Task.</returns>
       public async Task GoToDefaultState( bool forceAppState = false, bool andRebuildStageToolbars = false )
       {
-         await GoToAppState( DefaultState, forceAppState, andRebuildStageToolbars ).WithoutChangingContext();
+         await GoToAppState( DefaultState, forceAppState, andRebuildStageToolbars ).AndReturnToCallingContext();
       }
 
       /// <summary>
@@ -176,7 +176,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
       /// <returns>Task.</returns>
       public async Task GoToLastAppState()
       {
-         await GoToAppState( _lastAppState, true ).WithoutChangingContext();
+         await GoToAppState( _lastAppState, true ).AndReturnToCallingContext();
       }
 
       /// <summary>
@@ -185,7 +185,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
       /// <returns>Task.</returns>
       public async Task GoToStartUpState()
       {
-         await GoToAppState( StartUpState, true ).WithoutChangingContext();
+         await GoToAppState( StartUpState, true ).AndReturnToCallingContext();
       }
 
       /// <summary>
@@ -202,7 +202,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
          }
 
          // Go to the first path
-         await nestedPaths[ 0 ].StateMachineForms.GoToAppState( nestedPaths[ 0 ].AppState, true ).WithoutChangingContext();
+         await nestedPaths[ 0 ].StateMachineForms.GoToAppState( nestedPaths[ 0 ].AppState, true ).AndReturnToCallingContext();
 
          if ( nestedPaths.Length == 1 )
          {
@@ -222,7 +222,7 @@ namespace Com.MarcusTS.UI.XamForms.Common.Navigation
          var newlyNestedPathArray = newlyNestedPaths.ToArray();
 
          // Recur until finished
-         await GoToAppStateWithAdditionalPaths( newlyNestedPathArray ).WithoutChangingContext();
+         await GoToAppStateWithAdditionalPaths( newlyNestedPathArray ).AndReturnToCallingContext();
       }
 
       /// <summary>

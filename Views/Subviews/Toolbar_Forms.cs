@@ -177,7 +177,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
          {
             _bottomToolbarHeight = newHeight;
 
-            await RaiseBottomToolbarHeightChangedTask().WithoutChangingContext();
+            await RaiseBottomToolbarHeightChangedTask().AndReturnToCallingContext();
          }
       }
 
@@ -193,7 +193,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                () =>
                {
                   IsVisible = isVisible;
-                  await RaiseBottomToolbarHeightChangedTask().WithoutChangingContext();
+                  await RaiseBottomToolbarHeightChangedTask().AndReturnToCallingContext();
                } );
          }
 
@@ -226,7 +226,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
             IsVisible = bindingContextAsProvidingNames.IsToolbarVisible;
 
             // Calls grid.ClearCompletely
-            await RebuildToolbar().WithoutChangingContext();
+            await RebuildToolbar().AndReturnToCallingContext();
          }
          else
          {
@@ -243,7 +243,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
       {
          // This originates in PropertyChanged, a void handler, hence no way to leverage proper a TPL await.
          await BottomToolbarHeightChangedTask.RunAllTasksUsingDefaults( new[] { BottomToolbarHeight, } )
-                                             .WithoutChangingContext();
+                                             .AndReturnToCallingContext();
       }
 
       // Occurs upon binding context changed, hence _bindingContextAsHavingCurrentState is set before entry.
@@ -316,7 +316,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                if ( BindingContext.IsNotNullOrDefault() )
                {
                   await toolbarItem.SetBindingContextSafelyAndAwaitAllBranchingTasks( BindingContext )
-                                   .WithoutChangingContext();
+                                   .AndReturnToCallingContext();
                }
 
                // The button label exists because we create in above, so we can easily set its properties.
@@ -342,7 +342,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                         if ( toolbarItem.IsSelected )
                         {
                            // This all raises the CurrentStateChangedTask task; see below.
-                           await _bindingContextAsHavingCurrentState.GoToAppState( toolbarItem.SelectionKey ).WithoutChangingContext();
+                           await _bindingContextAsHavingCurrentState.GoToAppState( toolbarItem.SelectionKey ).AndReturnToCallingContext();
                         }
                      }
                   );
@@ -379,7 +379,7 @@ namespace Com.MarcusTS.UI.XamForms.Views.Subviews
                _grid.AddAndSetRowsAndColumns( toolbarItem, column: currentColumn++ );
             }
 
-            await SetBottomToolbarHeight( TOOLBAR_HEIGHT ).WithoutChangingContext();
+            await SetBottomToolbarHeight( TOOLBAR_HEIGHT ).AndReturnToCallingContext();
          }
          finally
          {
